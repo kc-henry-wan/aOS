@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pharmacy Job</string>
+    <string name="title_availablejob">Available Jobs</string>
+    <string name="title_myjob">My Jobs</string>
+    <string name="title_myfavorite">My Favorite</string>
+    <string name="title_profile">My Profile</string>
+    <string name="title_negotiate">Under Negotiation</string>
+    <string name="title_jobdetail">Job Detail</string>
+</resources>

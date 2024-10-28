@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_availablejob">
+
+    <fragment
+        android:id="@+id/navigation_availablejob"
+        android:name="com.wellbeing.pharmacyjob.view.AvailablejobFragment"
+        android:label="@string/title_availablejob"
+        tools:layout="@layout/fragment_availablejob" />
+
+    <fragment
+        android:id="@+id/navigation_myjob"
+        android:name="com.wellbeing.pharmacyjob.view.MyjobFragment"
+        android:label="@string/title_myjob"
+        tools:layout="@layout/fragment_myjob" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.wellbeing.pharmacyjob.view.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_myfavorite"
+        android:name="com.wellbeing.pharmacyjob.view.MyfavoriteFragment"
+        android:label="@string/title_myfavorite"
+        tools:layout="@layout/fragment_myfavorite" />
+
+    <fragment
+        android:id="@+id/navigation_jobdetail"
+        android:name="com.wellbeing.pharmacyjob.view.JobdetailFragment"
+        android:label="@string/title_jobdetail"
+        tools:layout="@layout/fragment_jobdetail" />
+</navigation>

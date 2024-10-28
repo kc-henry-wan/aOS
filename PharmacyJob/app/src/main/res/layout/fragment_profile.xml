@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+android:clickable="true"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/labelFirstname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="First Name:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@+id/dataFirstname"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataFirstname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelFirstname"
+        app:layout_constraintTop_toTopOf="@id/labelFirstname"
+        app:layout_constraintWidth_percent="0.55" />
+
+    <TextView
+        android:id="@+id/labelLastName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Last Name:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@+id/dataLastName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelFirstname"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataLastName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelLastName"
+        app:layout_constraintTop_toTopOf="@id/labelLastName"
+        app:layout_constraintWidth_percent="0.55" />
+
+    <TextView
+        android:id="@+id/labelMobile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Mobile:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@+id/dataMobile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelLastName"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataMobile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelMobile"
+        app:layout_constraintTop_toTopOf="@id/labelMobile"
+        app:layout_constraintWidth_percent="0.55" />
+
+    <TextView
+        android:id="@+id/labelEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Email:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@+id/dataEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelMobile"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelEmail"
+        app:layout_constraintTop_toTopOf="@id/labelEmail"
+        app:layout_constraintWidth_percent="0.55" />
+
+
+    <TextView
+        android:id="@+id/labelAddress1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Address line 1:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@+id/dataAddress1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelEmail"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataAddress1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelAddress1"
+        app:layout_constraintTop_toTopOf="@id/labelAddress1"
+        app:layout_constraintWidth_percent="0.55" />
+    <TextView
+        android:id="@+id/labelAddress2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Address line 2:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@+id/dataAddress2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelAddress1"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataAddress2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelAddress2"
+        app:layout_constraintTop_toTopOf="@id/labelAddress2"
+        app:layout_constraintWidth_percent="0.55" />
+
+    <TextView
+        android:id="@+id/labelPostalcode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Postal Code:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@+id/dataPostalcode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelAddress2"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataPostalcode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelPostalcode"
+        app:layout_constraintTop_toTopOf="@id/labelPostalcode"
+        app:layout_constraintWidth_percent="0.55" />
+
+    <TextView
+        android:id="@+id/labelCertificate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Certificate ID:"
+        android:textAlignment="viewEnd"
+
+        app:layout_constraintEnd_toStartOf="@+id/dataCertificate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelPostalcode"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataCertificate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelCertificate"
+        app:layout_constraintTop_toTopOf="@id/labelCertificate"
+        app:layout_constraintWidth_percent="0.55" />
+
+    <TextView
+        android:id="@+id/labelDoc01"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Other Document:"
+        android:textAlignment="viewEnd"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/dataDoc01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelCertificate"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataDoc01"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelDoc01"
+        app:layout_constraintTop_toTopOf="@id/labelDoc01"
+        app:layout_constraintWidth_percent="0.55" />
+
+    <TextView
+        android:id="@+id/labelDoc02"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Other Document:"
+        android:textAlignment="viewEnd"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/dataDoc02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelDoc01"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataDoc02"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelDoc02"
+        app:layout_constraintTop_toTopOf="@id/labelDoc02"
+        app:layout_constraintWidth_percent="0.55" />
+
+    <TextView
+        android:id="@+id/labelDoc03"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Other Document:"
+        android:textAlignment="viewEnd"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/dataDoc03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelDoc02"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataDoc03"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelDoc03"
+        app:layout_constraintTop_toTopOf="@id/labelDoc03"
+        app:layout_constraintWidth_percent="0.55" />
+
+    <TextView
+        android:id="@+id/labelDoc04"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Parking Option:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@+id/dataDoc04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelDoc03"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataDoc04"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelDoc04"
+        app:layout_constraintTop_toTopOf="@id/labelDoc04"
+        app:layout_constraintWidth_percent="0.55" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/labelDoc04">
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/round_button"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/btnUpload"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/round_button"
+            android:text="Upload Dcoument" />
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_availablejob"
+        android:icon="@drawable/ic_black_job"
+        android:title="@string/title_availablejob" />
+
+    <item
+        android:id="@+id/navigation_myfavorite"
+        android:icon="@drawable/ic_black_myfavorite"
+        android:title="@string/title_myfavorite" />
+
+    <item
+        android:id="@+id/navigation_myjob"
+        android:icon="@drawable/ic_black_myjob"
+        android:title="@string/title_myjob" />
+
+    <item
+        android:id="@+id/navigation_negotiate"
+        android:icon="@drawable/ic_black_negotiate"
+        android:title="@string/title_negotiate" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_black_profile"
+        android:title="@string/title_profile" />
+
+</menu>
