@@ -11,26 +11,88 @@ import retrofit2.http.POST
 
 interface ApiService {
 
+    // @POST("/api/auth/v1/register")
+    // suspend fun registerNewUser(@Body regUserRequest: RegUserRequest): Response<CommonApiResponse>
+
+    // @POST("/api/auth/v1/request-password-reset")
+    // suspend fun requestPwReset(@uery("email") email: String): Response<CommonApiResponse>
+    
+    //@POST("/api/auth/v1/login")
     @POST("api/mock/")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
+    // @GET("/api/v1/job")
     @GET("/api/mock/2")
     suspend fun getAvailableJob(
-        @Query("startDate") startDate: String,
-        @Query("endDate") endDate: String,
-        @Query("sortBy") sortBy: String
+        @Query("fromDate") fromDate: String,
+        @Query("toDate") toDate: String,
+        @Query("orderBy") orderBy: String,
+        @Query("fromLat") fromLat: String,
+        @Query("fromLng") fromLng: String
     ): Response<JobListResponse>
 
+    // @POST("/api/v1/job")
     @GET("api/mock/2")
-    suspend fun getMyFavoriteJob(@Query("favoriteIds") favoriteIds: String): Response<JobListResponse>
+    suspend fun getMyFavoriteJob(@Query("jobIDs") favoriteIds: String): Response<JobListResponse>
 
+    // @POST("/api/v1/myjob")
     @GET("api/mock/2")
-    suspend fun getMyJob(@Query("userId") userId: String): Response<JobListResponse>
+    suspend fun getMyJob(
+        @Query("fromLat") fromLat: String,
+        @Query("fromLng") fromLng: String
+    ): Response<JobListResponse>
 
-//
-////    @GET("api/mock/34")
-////    fun getNegotiationJobs(): Call<JobsResponse>
-//
+//     @PUT("/api/v1/job/{id}")
+//     suspend fun updateJobStatus(
+//         @Path("id") id: Long
+//         @Body jobUpdateRequest:JobUpdateRequest
+//     ):Response<CommonApiResponse>
+    
+//     @POST("/api/v1/negotiation")
+//     suspend fun addNegotiation(
+//         @Body addNegotiationRequest:AddNegotiationRequest
+//     ):Response<CommonApiResponse>
+
+//     //@GET("/api/v1/negotiation")
+// //    @GET("api/mock/34")
+// //   suspend fun getNegotiationJobs():Responsel<NegotiationList>
+
+//     @GET("/api/v1/negotiation/{id}")
+//     suspend fun getNegotiationRecord(@Path("id") id: Long):Response<Negotiation>
+    
+//     @PUT("/api/v1/negotiation/{id}")
+//     suspend fun updateNegotiationRecord(
+//         @Path("id") id: Long
+//         @Body updateNegotiationRequest:UpdateNegotiationRequest
+//     ):Response<CommonApiResponse>
+    
+//     @GET("/api/v1/pharmacist/{id}")
+//     suspend fun getUserDetail(@Path("id") id: Long):Response<Pharmacist>
+    
+//     @PUT("/api/v1/pharmacist/{id}")
+//     suspend fun updateUser(
+//         @Path("id") id: Long
+//         @Body updateUserRequest:UpdateUserRequest
+//     ):Response<CommonApiResponse>
+    
+//     @POST("/api/v1/image/upload")
+//     suspend fun uploadImage(
+//         @Query("imageType") imageType: String,
+//         @Query("imageFile") imageFile: String
+//     ):Response<CommonApiResponse>
+    
+//     @GET("/api/v1/image/pharmacist/{id}")
+//     suspend fun getUserImageList(
+//         @Path("id") id: Long
+//     ):Response<imageListResponse>
+    
+//     @GET("/api/v1/image/download/{id}")
+//     suspend fun downloadImage(
+//         @Path("id") id: Long
+//     ):Response<image>
+    
+    
+    //
 ////    @GET("api/mock/33")
 ////    fun getConfirmedJobs(): Call<JobsResponse>
 //
