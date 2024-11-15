@@ -1,7 +1,7 @@
 package com.wellbeing.pharmacyjob.model
 
 data class JobDetail(
-    val jobID: String,
+    val jobId: String,
     val branchName: String,
     val jobDate: String,
     val jobStartTime: String,
