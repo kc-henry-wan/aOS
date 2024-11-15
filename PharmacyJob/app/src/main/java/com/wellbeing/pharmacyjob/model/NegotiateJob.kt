@@ -2,7 +2,7 @@ package com.wellbeing.pharmacyjob.model
 
 
 data class NegotiateJob(
-    val negotiateJobId: Int? = null,
+    val negotiateId: Int? = null,
     val jobID: String,
     val jobDate: String,
     val jobStartTime: String,
