@@ -88,6 +88,9 @@ class JobdetailFragment : Fragment() {
 
         // Retrieve the item data passed from the previous fragment
         val item = arguments?.getParcelable<JobList>("item")
+val jobId : Long
+        val updatedAt: LocalDateTime
+        
         item?.let {
             tvJobID.text = it.jobId
             tvBranchName.text = it.branchName
@@ -109,19 +112,22 @@ class JobdetailFragment : Fragment() {
             // Set up the adapter
             val adapter = JobGridAdapter(requireContext(), dataList)
             jobGridView.adapter = adapter
+
+            jobID = it.jobId
+            updatedAt = it.updatedAt
         }
 
 //        backButton.setOnClickListener {
 //            onBackButton()
 //        }
         applyButton.setOnClickListener {
-            applyJob()
+            applyJob(jobID, updatedAt)
         }
         negotiateButton.setOnClickListener {
-            negotiateJob()
+            negotiateJob(jobID, updatedAt)
         }
         withdrawButton.setOnClickListener {
-            withdrawJob()
+            withdrawJob(jobID, updatedAt)
         }
     }
 
@@ -130,8 +136,13 @@ class JobdetailFragment : Fragment() {
         requireActivity().supportFragmentManager.popBackStack()
     }
 
-    private fun applyJob() {
-//        finish()
+    private fun applyJob(Long jobID, LocalDateTime updatedAt) {
+            // val request = JobUpdateRequest(
+            //     status = "Apply", 
+            //     updatedAt = updatedAt
+            // )
+            // updateJobData(jobID, request)
+            // finish()
     }
 
     private fun negotiateJob() {
@@ -149,8 +160,41 @@ class JobdetailFragment : Fragment() {
                 onBackButton()
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
+    // private fun updateJobData(id: Long, request: JobUpdateRequest) {
+    //     // Initialize the repository and ViewModel
+    //     val apiService = RetrofitInstance.api // Your Retrofit API service
+    //     val repository = JobUpdateRepository(apiService)
+
+    //     JobUpdateViewModel = ViewModelProvider(this, JobUpdateViewModelFactory(repository))
+    //         .get(JobUpdateViewModel::class.java)
+
+    //     JobUpdateViewModel.updateLiveData.observe(this, Observer { result ->
+    //         when (result) {
+    //             is ApiResult.Success -> {
+    //                 // Handle successful login, navigate to the next screen
+    //                 Toast.makeText(this, "Update successful!", Toast.LENGTH_SHORT).show()
+    //                 AppLogger.d(
+    //                     "JobdetailFragment",
+    //                     "JobUpdateViewModel.updateLiveData: Login Successful"
+    //                 )
+    //                 navigateToHomeScreen()
+    //             }
+
+    //             is ApiResult.Error -> {
+    //                 // Show error message
+    //                 Toast.makeText(this, "Update failed: ${response.code()}", Toast.LENGTH_SHORT).show()
+    //                 AppLogger.d(
+    //                     "JobdetailFragment",
+    //                     "JobUpdateViewModel.updateLiveData: Login failed >>> " + result.message
+    //                 )
+    //             }
+    //         }
+    //     }
+    // }
+    
 }
