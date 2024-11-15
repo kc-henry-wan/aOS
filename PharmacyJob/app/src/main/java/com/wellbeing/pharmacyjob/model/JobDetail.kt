@@ -2,7 +2,7 @@ package com.wellbeing.pharmacyjob.model
 
 data class JobDetail(
     val jobId: String,
-    val branchName: String,
+    val jobRef: String,
     val jobDate: String,
     val jobStartTime: String,
     val jobEndTime: String,
@@ -12,9 +12,11 @@ data class JobDetail(
     val lunchArrangement: String,
     val parkingOption: String,
     val ratePerMile: Double,
-    val address: String,
-    val postalCode: String,
     val status: String,
-    val statusCode: String
+    val updatedAt: String,
+    val branchName: String,
+    val branchAddress1: String,
+    val branchAddress2: String,
+    val branchPostalCode: String
 )
 
