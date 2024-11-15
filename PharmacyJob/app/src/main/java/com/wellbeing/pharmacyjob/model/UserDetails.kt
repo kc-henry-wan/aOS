@@ -2,17 +2,18 @@ package com.wellbeing.pharmacyjob.model
 
 data class UserDetails(
     val pharmacistId: String,
+    val firstName: String,
+    val lastName: String,
     val email: String,
     val mobile: String,
-    val address: String,
+    val address1: String,
+    val address2: String,
     val postalCode: String,
-    val licenseNumber: String,
+    val info1: String,
     val info2: String,
     val info3: String,
     val info4: String,
     val info5: String,
     val status: String,
-    val statusCode: String,
-    val registerDateTime: String,
-    val lastModifiedDateTime: String
+    val updatedAt: String
 )
