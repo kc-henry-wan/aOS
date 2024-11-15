@@ -19,12 +19,9 @@ import com.wellbeing.pharmacyjob.api.ApiResult
 import com.wellbeing.pharmacyjob.api.RetrofitInstance
 import com.wellbeing.pharmacyjob.api.SessionManager
 import com.wellbeing.pharmacyjob.databinding.FragmentMyjobBinding
-import com.wellbeing.pharmacyjob.factory.MyfavoriteViewModelFactory
 import com.wellbeing.pharmacyjob.factory.MyjobViewModelFactory
 import com.wellbeing.pharmacyjob.model.JobList
-import com.wellbeing.pharmacyjob.repository.MyfavoriteRepository
 import com.wellbeing.pharmacyjob.repository.MyjobRepository
-import com.wellbeing.pharmacyjob.viewmodel.MyfavoriteViewModel
 import com.wellbeing.pharmacyjob.viewmodel.MyjobViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,7 +54,7 @@ class MyjobFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        AppLogger.d("MyjobFragment","MyjobFragment --- onDestroyView")
+        AppLogger.d("MyjobFragment", "MyjobFragment --- onDestroyView")
         _binding = null
     }
 
@@ -65,7 +62,7 @@ class MyjobFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        AppLogger.d("MyjobFragment","MyjobFragment --- onDestroyView")
+        AppLogger.d("MyjobFragment", "MyjobFragment --- onDestroyView")
 
         // Initialize TextViews
         apiResultTextView = binding.apiResultTextView
@@ -107,8 +104,7 @@ class MyjobFragment : Fragment() {
                         try {
                             withContext(Dispatchers.Main) {
                                 jobList.clear()
-                                result.data?.jobs?.forEach { job ->
-                                    job.distance = 1.3;
+                                result.data?.data?.content?.forEach { job ->
                                     jobList.add(job)
                                 }
                                 joblistAdapter.updateData(jobList)
@@ -166,7 +162,7 @@ class MyjobFragment : Fragment() {
 
     private fun fetchDataFromApi() {
 
-        val userId =SessionManager.getUserId(requireContext())
+        val userId = SessionManager.getUserId(requireContext())
 
         AppLogger.d(
             "MyjobFragment",

@@ -57,14 +57,14 @@ class MyfavoriteFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        AppLogger.d("MyfavoriteFragment","MyfavoriteFragment --- onDestroyView")
+        AppLogger.d("MyfavoriteFragment", "MyfavoriteFragment --- onDestroyView")
         _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        AppLogger.d("MyfavoriteFragment","MyfavoriteFragment --- onDestroyView")
+        AppLogger.d("MyfavoriteFragment", "MyfavoriteFragment --- onDestroyView")
 
         // Initialize TextViews
         apiResultTextView = binding.apiResultTextView
@@ -106,8 +106,7 @@ class MyfavoriteFragment : Fragment() {
                         try {
                             withContext(Dispatchers.Main) {
                                 jobList.clear()
-                                result.data?.jobs?.forEach { job ->
-                                    job.distance = 4.3;
+                                result.data?.data?.content?.forEach { job ->
                                     jobList.add(job)
                                 }
                                 joblistAdapter.updateData(jobList)

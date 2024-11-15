@@ -7,6 +7,17 @@
     android:orientation="vertical"
     android:padding="10dp">
 
+    <!-- Favorite Icon -->
+    <ImageView
+        android:id="@+id/favIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_icon_star_outline"
+        android:contentDescription=""
+        android:clickable="true"
+        android:focusable="true"/>
+
     <!-- First Line: Date and Time -->
     <TextView
         android:id="@+id/dateTimeTextView"
@@ -61,21 +72,26 @@
         <!-- Third Line: Branch Name and Address -->
         <TextView
             android:id="@+id/branchNameTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:ellipsize="none"
+            android:singleLine="false"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/addressTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="10dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
             android:layout_gravity="end"
+            android:ellipsize="none"
+            android:singleLine="false"
             android:textSize="14sp"
             android:textStyle="bold" />
 
     </LinearLayout>
 
 </LinearLayout>
-

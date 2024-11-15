@@ -5,8 +5,13 @@ data class JobListResponse(
 //    @SerializedName("responseCode") val responseCode: String,
 //    @SerializedName("errorCode") val errorCode: String,
 //    @SerializedName("jobs") val jobs: List<JobList>
-    val status: String,
-    val responseCode: String,
+    val apiVersion: String,
+    val apiStatus: String,
     val errorCode: String,
-    val jobs: List<JobList>
+    val errorMessage: String,
+    val data: data
+)
+
+data class data(
+    val content: List<JobList>
 )

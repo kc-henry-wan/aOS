@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -27,11 +26,9 @@ import com.wellbeing.pharmacyjob.factory.AvailablejobViewModelFactory
 import com.wellbeing.pharmacyjob.model.JobList
 import com.wellbeing.pharmacyjob.repository.AvailablejobRepository
 import com.wellbeing.pharmacyjob.viewmodel.AvailablejobViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 import java.util.Calendar
 
 class AvailablejobFragment : Fragment() {
@@ -47,7 +44,7 @@ class AvailablejobFragment : Fragment() {
     private lateinit var startDateText: TextView
     private lateinit var endDateText: TextView
     private val calendar: Calendar = Calendar.getInstance()
-    var apiDataSortBy = "";
+    var apiDataSortBy = ""
     private lateinit var availablejobViewModel: AvailablejobViewModel
     private lateinit var sortingSpinner: Spinner
 
@@ -68,7 +65,7 @@ class AvailablejobFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        AppLogger.d("AvailablejobFragment","AvailablejobFragment --- onDestroyView")
+        AppLogger.d("AvailablejobFragment", "AvailablejobFragment --- onDestroyView")
 
         _binding = null
     }
@@ -77,7 +74,7 @@ class AvailablejobFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        AppLogger.d("AvailablejobFragment","AvailablejobFragment --- onViewCreated")
+        AppLogger.d("AvailablejobFragment", "AvailablejobFragment --- onViewCreated")
 
         // Initialize TextViews
         startDateText = binding.startDateText
@@ -121,8 +118,7 @@ class AvailablejobFragment : Fragment() {
                         try {
                             withContext(Dispatchers.Main) {
                                 jobList.clear()
-                                result.data?.jobs?.forEach { job ->
-                                    job.distance = 2.3;
+                                result.data?.data?.content?.forEach { job ->
                                     jobList.add(job)
                                 }
                                 joblistAdapter.updateData(jobList)
@@ -227,7 +223,7 @@ class AvailablejobFragment : Fragment() {
                 // Call your API with the selected key
                 AppLogger.d(
                     "AvailablejobFragment",
-                    "Call fetchDataFromApi on SortingSpinner item selected:"+selectedKey
+                    "Call fetchDataFromApi on SortingSpinner item selected:" + selectedKey
                 )
                 fetchDataFromApi(selectedKey)
             }
@@ -249,9 +245,12 @@ class AvailablejobFragment : Fragment() {
         val startDate = startDateText.text.toString()
         val endDate = endDateText.text.toString()
         if (selectedKey.isNotEmpty())
-            apiDataSortBy = selectedKey;
+            apiDataSortBy = selectedKey
 
-        AppLogger.d("AvailablejobFragment","fetchDataFromApi - Call availablejobViewModel.getAvailableJob: startDate"+startDate+";endDate"+endDate+";apiDataSortBy"+apiDataSortBy)
+        AppLogger.d(
+            "AvailablejobFragment",
+            "fetchDataFromApi - Call availablejobViewModel.getAvailableJob: startDate" + startDate + ";endDate" + endDate + ";apiDataSortBy" + apiDataSortBy
+        )
         availablejobViewModel.getAvailablejob(startDate, endDate, apiDataSortBy, requireContext())
     }
 

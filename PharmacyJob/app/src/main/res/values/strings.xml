@@ -6,4 +6,5 @@
     <string name="title_profile">My Profile</string>
     <string name="title_negotiate">Under Negotiation</string>
     <string name="title_jobdetail">Job Detail</string>
+    <string name="text_fav">Favorite Icon</string>
 </resources>

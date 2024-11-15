@@ -10,7 +10,6 @@ import android.widget.GridView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.wellbeing.pharmacyjob.adapter.JobGridAdapter
 import com.wellbeing.pharmacyjob.databinding.FragmentJobdetailBinding
 import com.wellbeing.pharmacyjob.model.JobList
@@ -21,14 +20,10 @@ class JobdetailFragment : Fragment() {
 
     private lateinit var tvJobID: TextView
     private lateinit var tvBranchName: TextView
-    private lateinit var tvJobDate: TextView
-    private lateinit var tvJobTime: TextView
-    private lateinit var tvHourlyRate: TextView
-    private lateinit var tvTotalWorkHour: TextView
-    private lateinit var tvTotalPaid: TextView
     private lateinit var tvLunchArrangement: TextView
     private lateinit var tvParkingOption: TextView
     private lateinit var tvAddress: TextView
+    private lateinit var tvRatePerMile: TextView
 
     private lateinit var backButton: Button
     private lateinit var applyButton: Button
@@ -55,7 +50,7 @@ class JobdetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        AppLogger.d("JobdetailFragment","JobdetailFragment --- onDestroyView")
+        AppLogger.d("JobdetailFragment", "JobdetailFragment --- onDestroyView")
 
         _binding = null
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -74,60 +69,42 @@ class JobdetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        AppLogger.d("JobdetailFragment","JobdetailFragment --- onDestroyView")
+        AppLogger.d("JobdetailFragment", "JobdetailFragment --- onDestroyView")
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         tvJobID = binding.dataJobID
         tvBranchName = binding.dataBranchName
-        tvJobDate = binding.dataJobDate
-        tvJobTime = binding.dataJobTime
-        tvHourlyRate = binding.dataHourlyRate
-        tvTotalWorkHour = binding.dataTotalWorkHour
-        tvTotalPaid = binding.dataTotalPaid
         tvLunchArrangement = binding.dataLunchArrangement
         tvParkingOption = binding.dataParkingOption
         tvAddress = binding.dataAddress
+        tvRatePerMile = binding.dataRatePerMile
 //        backButton = binding.btnBack
         applyButton = binding.btnApply
         negotiateButton = binding.btnNegotiate
         withdrawButton = binding.btnWithdraw
 
-        jobGridView=binding.jobGridView
+        jobGridView = binding.jobGridView
 
         // Retrieve the item data passed from the previous fragment
         val item = arguments?.getParcelable<JobList>("item")
         item?.let {
-            tvJobID.text = it.jobID
+            tvJobID.text = it.jobId
             tvBranchName.text = it.branchName
-            tvJobDate.text = it.jobDate
-            tvJobTime.text = it.jobStartTime + "-" + it.jobEndTime
-            tvHourlyRate.text = it.hourlyRate.toString()
-            tvTotalWorkHour.text = it.totalPaidHour.toString()
-            tvTotalPaid.text = it.totalPaid.toString()
             tvLunchArrangement.text = it.lunchArrangement
             tvParkingOption.text = it.parkingOption
-            tvAddress.text = it.address + " " + it.postalCode
+            tvRatePerMile.text = String.format("%.2f", it.ratePerMile)
+            tvAddress.text =
+                it.branchAddress1 + " \n " + it.branchAddress2 + " \n " + it.branchPostalCode
 
             val dataList = listOf(
-                "Date:\n"+it.jobDate,
-                "Time:\n"+it.jobStartTime + " - " + it.jobEndTime,
-                "Distance:\n"+it.distance.toString()+" miles",
-                "Working Hour:\n"+it.totalPaidHour.toString()+" hours",
-                "Hourly Rate:\n£"+it.hourlyRate.toString()+"/hr",
-                "Total Paid:\n£"+it.totalPaid.toString(),
+                "Date:\n" + it.jobDate,
+                "Time:\n" + it.jobStartTime.take(5) + " - " + it.jobEndTime.take(5),
+                "Distance:\n" + String.format("%.2f miles", it.distance),
+                "Working Hour:\n" + String.format("%.2f", it.totalWorkHour) + " hours",
+                "Hourly Rate:\n£" + String.format("%.2f", it.hourlyRate) + "/hr",
+                "Total Paid:\n£" + String.format("%.2f", it.totalPaid),
             )
-            tvJobDate.height = 0
-            tvJobTime.height = 0
-            tvHourlyRate.height = 0
-            tvTotalPaid.height = 0
-            tvTotalWorkHour.height = 0
-
-            binding.labelJobDate.height = 0
-            binding.labelJobTime.height = 0
-            binding.labelHourlyRate.height = 0
-            binding.labelTotalPaid.height = 0
-            binding.labelTotalWorkHour.height = 0
 
             // Set up the adapter
             val adapter = JobGridAdapter(requireContext(), dataList)
@@ -152,12 +129,15 @@ class JobdetailFragment : Fragment() {
 //            findNavController().navigateUp()
         requireActivity().supportFragmentManager.popBackStack()
     }
+
     private fun applyJob() {
 //        finish()
     }
+
     private fun negotiateJob() {
 //        finish()
     }
+
     private fun withdrawJob() {
 //        finish()
     }
@@ -169,6 +149,7 @@ class JobdetailFragment : Fragment() {
                 onBackButton()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

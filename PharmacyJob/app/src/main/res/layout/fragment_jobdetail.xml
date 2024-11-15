@@ -89,164 +89,16 @@ android:clickable="true"
         app:layout_constraintTop_toBottomOf="@id/labelAddress" />
 
     <TextView
-        android:id="@+id/labelJobDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Job Date:"
-        android:textAlignment="viewEnd"
-        app:layout_constraintEnd_toStartOf="@+id/dataJobDate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/jobGridView"
-        app:layout_constraintWidth_percent="0.45" />
-
-    <TextView
-        android:id="@+id/dataJobDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text=""
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/labelJobDate"
-        app:layout_constraintTop_toTopOf="@id/labelJobDate"
-        app:layout_constraintWidth_percent="0.55" />
-
-    <TextView
-        android:id="@+id/labelJobTime"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Job Time:"
-        android:textAlignment="viewEnd"
-
-        app:layout_constraintEnd_toStartOf="@+id/dataJobTime"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelJobDate"
-        app:layout_constraintWidth_percent="0.45" />
-
-    <TextView
-        android:id="@+id/dataJobTime"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text=""
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/labelJobTime"
-        app:layout_constraintTop_toTopOf="@id/labelJobTime"
-        app:layout_constraintWidth_percent="0.55" />
-
-    <TextView
-        android:id="@+id/labelHourlyRate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Hourly Rate:"
-        android:textAlignment="viewEnd"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/dataHourlyRate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelJobTime"
-        app:layout_constraintWidth_percent="0.45" />
-
-    <TextView
-        android:id="@+id/dataHourlyRate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text=""
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/labelHourlyRate"
-        app:layout_constraintTop_toTopOf="@id/labelHourlyRate"
-        app:layout_constraintWidth_percent="0.55" />
-
-    <TextView
-        android:id="@+id/labelTotalWorkHour"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Total Work Hour:"
-        android:textAlignment="viewEnd"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/dataTotalWorkHour"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelHourlyRate"
-        app:layout_constraintWidth_percent="0.45" />
-
-    <TextView
-        android:id="@+id/dataTotalWorkHour"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text=""
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/labelTotalWorkHour"
-        app:layout_constraintTop_toTopOf="@id/labelTotalWorkHour"
-        app:layout_constraintWidth_percent="0.55" />
-
-    <TextView
-        android:id="@+id/labelTotalPaid"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Total Paid:"
-        android:textAlignment="viewEnd"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/dataTotalPaid"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelTotalWorkHour"
-        app:layout_constraintWidth_percent="0.45" />
-
-    <TextView
-        android:id="@+id/dataTotalPaid"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text=""
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/labelTotalPaid"
-        app:layout_constraintTop_toTopOf="@id/labelTotalPaid"
-        app:layout_constraintWidth_percent="0.55" />
-
-    <TextView
-        android:id="@+id/labelDistance"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Lunch Arrangement:"
-        android:textAlignment="viewEnd"
-
-        app:layout_constraintEnd_toStartOf="@+id/dataDistance"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelTotalPaid"
-        app:layout_constraintWidth_percent="0.45" />
-
-    <TextView
-        android:id="@+id/dataDistance"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/labelDistance"
-        app:layout_constraintTop_toTopOf="@id/labelDistance"
-        app:layout_constraintWidth_percent="0.55" />
-
-    <TextView
         android:id="@+id/labelRatePerMile"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="Lunch Arrangement:"
+        android:text="Rate Per Mile:"
         android:textAlignment="viewEnd"
 
         app:layout_constraintEnd_toStartOf="@+id/dataRatePerMile"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelDistance"
+        app:layout_constraintTop_toBottomOf="@id/jobGridView"
         app:layout_constraintWidth_percent="0.45" />
 
     <TextView
