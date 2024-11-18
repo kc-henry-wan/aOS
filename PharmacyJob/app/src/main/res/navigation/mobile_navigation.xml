@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_myjob" />
 
     <fragment
+        android:id="@+id/navigation_negotiation"
+        android:name="com.wellbeing.pharmacyjob.view.NegotiationFragment"
+        android:label="@string/title_negotiation"
+        tools:layout="@layout/fragment_negotiation" />
+
+    <fragment
         android:id="@+id/navigation_profile"
         android:name="com.wellbeing.pharmacyjob.view.ProfileFragment"
         android:label="@string/title_profile"

@@ -1,13 +1,18 @@
 package com.wellbeing.pharmacyjob.view
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.GridView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,12 +24,16 @@ import com.wellbeing.pharmacyjob.api.RetrofitInstance
 import com.wellbeing.pharmacyjob.databinding.FragmentJobdetailBinding
 import com.wellbeing.pharmacyjob.factory.JobDetailViewModelFactory
 import com.wellbeing.pharmacyjob.factory.JobUpdateViewModelFactory
+import com.wellbeing.pharmacyjob.factory.NegotiateAddViewModelFactory
 import com.wellbeing.pharmacyjob.model.JobList
+import com.wellbeing.pharmacyjob.model.NegotiateAddRequest
 import com.wellbeing.pharmacyjob.model.UpdateJobRequest
 import com.wellbeing.pharmacyjob.repository.JobDetailRepository
 import com.wellbeing.pharmacyjob.repository.JobUpdateRepository
+import com.wellbeing.pharmacyjob.repository.NegotiateAddRepository
 import com.wellbeing.pharmacyjob.viewmodel.JobDetailViewModel
 import com.wellbeing.pharmacyjob.viewmodel.JobUpdateViewModel
+import com.wellbeing.pharmacyjob.viewmodel.NegotiateAddViewModel
 import java.util.Locale
 
 class JobdetailFragment : Fragment() {
@@ -48,6 +57,7 @@ class JobdetailFragment : Fragment() {
     private lateinit var apiResultTextView: TextView
     private lateinit var jobDetailViewModel: JobDetailViewModel
     private lateinit var jobUpdateViewModel: JobUpdateViewModel
+    private lateinit var negotiateAddViewModel: NegotiateAddViewModel
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -108,6 +118,7 @@ class JobdetailFragment : Fragment() {
         var jobId: String = ""
         var updatedAt: String = ""
         var distance: String = ""
+        var totalWorkHour: Double = 0.0
 
         AppLogger.d("JobdetailFragment", "2")
 
@@ -121,6 +132,7 @@ class JobdetailFragment : Fragment() {
         val apiService = RetrofitInstance.api // Your Retrofit API service
         val repository = JobDetailRepository(apiService)
         val repositoryUpdate = JobUpdateRepository(apiService)
+        val repositoryNego = NegotiateAddRepository(apiService)
 
         AppLogger.d("JobdetailFragment", "4")
         jobDetailViewModel = ViewModelProvider(this, JobDetailViewModelFactory(repository))
@@ -136,6 +148,7 @@ class JobdetailFragment : Fragment() {
 
                     AppLogger.d("JobdetailFragment", "6:")
                     updatedAt = job?.updatedAt.toString()
+                    totalWorkHour = job?.totalWorkHour?.toDouble()!!
                     AppLogger.d("JobdetailFragment", "7:" + updatedAt)
                     tvJobID.text = job?.jobRef
                     tvBranchName.text = job?.branchName
@@ -198,20 +211,37 @@ class JobdetailFragment : Fragment() {
             }
         })
 
+        negotiateAddViewModel =
+            ViewModelProvider(this, NegotiateAddViewModelFactory(repositoryNego))
+                .get(NegotiateAddViewModel::class.java)
+
+        // Observe the ViewModel LiveData for API response status
+        negotiateAddViewModel.liveData.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is ApiResult.Success -> {
+                    apiResultTextView.text = getString(R.string.api_update_success)
+                    onBackButton()
+                }
+
+                is ApiResult.Error -> {
+                    apiResultTextView.text = getString(R.string.api_update_fail)
+                }
+            }
+        })
 //        backButton.setOnClickListener {
 //            onBackButton()
 //        }
         applyButton.setOnClickListener {
-            jobUpdateViewModel.updateJobStatus(
-                jobId, UpdateJobRequest("8", getString(R.string.job_status_apply), updatedAt)
-            )
+            showConfirmationDialog(jobId, getString(R.string.job_status_apply), updatedAt, 0.0)
         }
         negotiateButton.setOnClickListener {
-            //Goto negotitaion page
+            showConfirmationDialog(
+                jobId, getString(R.string.negotiate_status_new), updatedAt, totalWorkHour
+            )
         }
         withdrawButton.setOnClickListener {
-            jobUpdateViewModel.updateJobStatus(
-                jobId, UpdateJobRequest("8", getString(R.string.job_status_withdraw), updatedAt)
+            showConfirmationDialog(
+                jobId, getString(R.string.job_status_withdraw), updatedAt, 0.0
             )
         }
 
@@ -233,5 +263,108 @@ class JobdetailFragment : Fragment() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+
+    private fun showConfirmationDialog(
+        id: String,
+        actionMode: String,
+        updatedAt: String,
+        totalWorkHour: Double
+    ) {
+
+        // Inflate the custom dialog layout
+        val dialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_confirmation, null)
+
+        // Create the dialog
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        // Set up dialog views
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+        val btnConfirm = dialogView.findViewById<Button>(R.id.btnConfirm)
+        val tvDialogMessage = dialogView.findViewById<TextView>(R.id.tvDialogMessage)
+        val dataPurposedRate = dialogView.findViewById<EditText>(R.id.dataPurposedRate)
+        val dataPurposedTotal = dialogView.findViewById<TextView>(R.id.dataPurposedTotal)
+        var purposedTotal: Double = 0.0
+
+        // Set custom message or title dynamically (optional)
+        if (actionMode == getString(R.string.job_status_apply)) {
+            tvDialogMessage.text = getString(R.string.job_apply_confirmation)
+            dataPurposedRate.visibility = View.GONE
+            dataPurposedTotal.visibility = View.GONE
+        } else if (actionMode == getString(R.string.job_status_withdraw)) {
+            tvDialogMessage.text = getString(R.string.job_withdraw_confirmation)
+            dataPurposedRate.visibility = View.GONE
+            dataPurposedTotal.visibility = View.GONE
+        } else if (actionMode == getString(R.string.negotiate_status_new)) {
+            tvDialogMessage.text = getString(R.string.negotiate_new_confirmation)
+            dataPurposedRate.visibility = View.VISIBLE
+            dataPurposedTotal.visibility = View.VISIBLE
+        }
+
+        // Handle button clicks
+        btnCancel.setOnClickListener {
+            dialog.dismiss() // Close the dialog
+        }
+
+        btnConfirm.setOnClickListener {
+            if (actionMode == getString(R.string.job_status_apply)) {
+                dialog.dismiss() // Close the dialog
+                jobUpdateViewModel.updateJobStatus(
+                    id, UpdateJobRequest("8", actionMode, updatedAt)
+                )
+            } else if (actionMode == getString(R.string.job_status_withdraw)) {
+                dialog.dismiss() // Close the dialog
+                jobUpdateViewModel.updateJobStatus(
+                    id, UpdateJobRequest("8", actionMode, updatedAt)
+                )
+            } else if (actionMode == getString(R.string.negotiate_status_new)) {
+                if (purposedTotal > 0) {
+                    dialog.dismiss() // Close the dialog
+                    negotiateAddViewModel.addNegotiation(
+                        NegotiateAddRequest(
+                            "8", actionMode, dataPurposedRate.text.toString(),
+                            purposedTotal.toString()
+                        )
+                    )
+                } else {
+                    dataPurposedTotal.text = getString(R.string.negotiate_new_error)
+                    dataPurposedTotal.setTextColor(Color.RED)
+                }
+            }
+        }
+
+        // Set up TextWatcher to calculate the result immediately when user types
+        dataPurposedRate.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val inputValue = s.toString()
+                if (inputValue.isNotEmpty()) {
+                    try {
+                        val inputDouble = inputValue.toDouble()
+                        purposedTotal = inputDouble * totalWorkHour
+                        dataPurposedTotal.text =
+                            getString(R.string.negotiate_new_input) + purposedTotal
+                        dataPurposedTotal.setTextColor(Color.GRAY)
+                    } catch (e: NumberFormatException) {
+                        dataPurposedTotal.text = ""
+                        purposedTotal = 0.0
+                    }
+                } else {
+                    dataPurposedTotal.text = ""
+                    purposedTotal = 0.0
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        // Show the dialog
+        dialog.show()
     }
 }

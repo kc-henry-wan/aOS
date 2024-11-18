@@ -75,10 +75,10 @@ class JobAdapter(
 
         private fun updateFavoriteIcon(isFavorite: Boolean) {
             if (isFavorite) {
-                favIcon.setImageResource(R.drawable.ic_icon_star) // Your filled favorite icon
+                favIcon.setImageResource(R.drawable.ic_job_star) // Your filled favorite icon
                 favIcon.setColorFilter(itemView.context.getColor(R.color.favoriteColor))
             } else {
-                favIcon.setImageResource(R.drawable.ic_icon_star_outline) // Your empty favorite icon
+                favIcon.setImageResource(R.drawable.ic_job_star_outline) // Your empty favorite icon
                 favIcon.setColorFilter(itemView.context.getColor(R.color.lightGrey))
             }
         }

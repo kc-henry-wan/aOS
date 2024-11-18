@@ -6,8 +6,9 @@ import com.wellbeing.pharmacyjob.model.JobListResponse
 import com.wellbeing.pharmacyjob.model.LoginRequest
 import com.wellbeing.pharmacyjob.model.LoginResponse
 import com.wellbeing.pharmacyjob.model.NegotiateAddRequest
-import com.wellbeing.pharmacyjob.model.NegotiateJob
 import com.wellbeing.pharmacyjob.model.NegotiateUpdateRequest
+import com.wellbeing.pharmacyjob.model.NegotiationList
+import com.wellbeing.pharmacyjob.model.NegotiationResponse
 import com.wellbeing.pharmacyjob.model.RegUserRequest
 import com.wellbeing.pharmacyjob.model.UpdateJobRequest
 import com.wellbeing.pharmacyjob.model.UserDetail
@@ -63,17 +64,18 @@ interface ApiService {
         @Body updateJobRequest: UpdateJobRequest
     ): Response<ApiResponse<String>>
 
-    @POST("/api/v1/negotiation")
+    //    @POST("/api/v1/negotiation")
+    @POST("api/mock/")
     suspend fun addNegotiation(
         @Body negotiateAddRequest: NegotiateAddRequest
     ): Response<ApiResponse<String>>
 
-    //@GET("/api/v1/negotiation")
-    //    @GET("api/mock/34")
-    //   suspend fun getNegotiationJobs():Response<NegotiationJob>
+    //    @GET("/api/v1/negotiation")
+    @GET("api/mock/3")
+    suspend fun getNegotiation(): Response<NegotiationResponse>
 
     @GET("/api/v1/negotiation/{id}")
-    suspend fun getNegotiation(@Path("id") id: String): Response<ApiResponse<List<NegotiateJob>>>
+    suspend fun getNegotiation(@Path("id") id: String): Response<ApiResponse<List<NegotiationList>>>
 
     @PUT("/api/v1/negotiation/{id}")
     suspend fun updateNegotiation(

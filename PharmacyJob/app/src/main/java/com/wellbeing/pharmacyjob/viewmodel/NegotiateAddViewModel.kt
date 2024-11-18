@@ -16,6 +16,10 @@ class NegotiateAddViewModel(private val repository: NegotiateAddRepository) : Vi
 
     fun addNegotiation(request: NegotiateAddRequest) {
         // Launch a coroutine in viewModelScope
+        AppLogger.d(
+            "NegotiateAddViewModel",
+            "addNegotiation > request: " + request.toString()
+        )
         viewModelScope.launch {
             val result = ApiHelper.safeApiCall {
                 repository.addNegotiation(request)

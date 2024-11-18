@@ -4,24 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wellbeing.pharmacyjob.api.SessionManager
 import com.wellbeing.pharmacyjob.databinding.ActivityMainBinding
 import com.wellbeing.pharmacyjob.view.AvailablejobFragment
 import com.wellbeing.pharmacyjob.view.LoginActivity
 import com.wellbeing.pharmacyjob.view.MyfavoriteFragment
 import com.wellbeing.pharmacyjob.view.MyjobFragment
+import com.wellbeing.pharmacyjob.view.NegotiationFragment
 import com.wellbeing.pharmacyjob.view.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
@@ -32,9 +25,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Check session status
-        AppLogger.d("MainActivity","Check session status")
+        AppLogger.d("MainActivity", "Check session status")
         if (!SessionManager.isLoggedIn(this)) {
-            AppLogger.d("MainActivity","SessionManager.isLoggedIn = false")
+            AppLogger.d("MainActivity", "SessionManager.isLoggedIn = false")
             navigateToLogin()
             return
         }
@@ -53,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_availablejob -> selectedFragment = AvailablejobFragment()
                 R.id.navigation_myfavorite -> selectedFragment = MyfavoriteFragment()
                 R.id.navigation_myjob -> selectedFragment = MyjobFragment()
+                R.id.navigation_negotiation -> selectedFragment = NegotiationFragment()
                 R.id.navigation_profile -> selectedFragment = ProfileFragment()
             }
             if (selectedFragment != null) {
@@ -99,14 +93,17 @@ class MainActivity : AppCompatActivity() {
             this.onBackPressed()  // Trigger the default back action
             true
         }
+
         R.id.action_logout -> {
             logoutUser()
             true
         }
+
         else -> {
             super.onOptionsItemSelected(item)
         }
     }
+
     override fun onBackPressed() {
         // Custom back navigation behavior if needed
         if (supportFragmentManager.backStackEntryCount > 0) {
@@ -115,6 +112,7 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()  // Default system back action
         }
     }
+
     fun showBackButton(show: Boolean) {
         supportActionBar?.setDisplayHomeAsUpEnabled(show)
     }

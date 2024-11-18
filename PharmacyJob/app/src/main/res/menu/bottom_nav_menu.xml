@@ -17,9 +17,9 @@
         android:title="@string/title_myjob" />
 
     <item
-        android:id="@+id/navigation_negotiate"
-        android:icon="@drawable/ic_black_negotiate"
-        android:title="@string/title_negotiate" />
+        android:id="@+id/navigation_negotiation"
+        android:icon="@drawable/ic_black_negotiation"
+        android:title="@string/title_negotiation" />
 
     <item
         android:id="@+id/navigation_profile"
