@@ -1,34 +1,43 @@
 package com.wellbeing.pharmacyjob.api
 
+import com.wellbeing.pharmacyjob.model.ApiResponse
+import com.wellbeing.pharmacyjob.model.JobDetail
 import com.wellbeing.pharmacyjob.model.JobListResponse
 import com.wellbeing.pharmacyjob.model.LoginRequest
 import com.wellbeing.pharmacyjob.model.LoginResponse
-import retrofit2.http.GET
-import retrofit2.http.Query
+import com.wellbeing.pharmacyjob.model.NegotiateAddRequest
+import com.wellbeing.pharmacyjob.model.NegotiateJob
+import com.wellbeing.pharmacyjob.model.NegotiateUpdateRequest
+import com.wellbeing.pharmacyjob.model.RegUserRequest
+import com.wellbeing.pharmacyjob.model.UpdateJobRequest
+import com.wellbeing.pharmacyjob.model.UserDetail
+import com.wellbeing.pharmacyjob.model.UserUpdateRequest
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
-    // @POST("/api/auth/v1/register")
-    // suspend fun registerNewUser(@Body regUserRequest: RegUserRequest): Response<CommonApiResponse>
+    @POST("/api/auth/v1/register")
+    suspend fun registerNewUser(@Body regUserRequest: RegUserRequest): Response<ApiResponse<String>>
 
-    // @POST("/api/auth/v1/request-password-reset")
-    // suspend fun requestPwReset(@uery("email") email: String): Response<CommonApiResponse>
-    
+    @POST("/api/auth/v1/request-password-reset")
+    suspend fun requestPwReset(@Query("email") email: String): Response<ApiResponse<String>>
+
     //@POST("/api/auth/v1/login")
     @POST("api/mock/")
-    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
+    suspend fun login(@Body loginRequest: LoginRequest): Response<ApiResponse<LoginResponse>>
 
     // @GET("/api/v1/job")
     @GET("/api/mock/2")
     suspend fun getAvailableJob(
         @Query("fromDate") fromDate: String,
         @Query("toDate") toDate: String,
-        @Query("orderBy") orderBy: String,
-        @Query("fromLat") fromLat: String,
-        @Query("fromLng") fromLng: String
+        @Query("orderBy") orderBy: String
     ): Response<JobListResponse>
 
     // @POST("/api/v1/job")
@@ -37,61 +46,67 @@ interface ApiService {
 
     // @POST("/api/v1/myjob")
     @GET("api/mock/2")
-    suspend fun getMyJob(
-        @Query("fromLat") fromLat: String,
-        @Query("fromLng") fromLng: String
-    ): Response<JobListResponse>
+    suspend fun getMyJob(): Response<JobListResponse>
 
-//     @PUT("/api/v1/job/{id}")
-//     suspend fun updateJobStatus(
-//         @Path("id") id: Long
-//         @Body jobUpdateRequest:JobUpdateRequest
-//     ):Response<CommonApiResponse>
-    
-//     @POST("/api/v1/negotiation")
-//     suspend fun addNegotiation(
-//         @Body addNegotiationRequest:AddNegotiationRequest
-//     ):Response<CommonApiResponse>
+    //    @GET("/api/v1/job/{id}")
+    @GET("api/mock/7")
+    suspend fun getJobDetail(
+        @Query("id") id: String
+//        @Path("id") id: String
+    ): Response<ApiResponse<JobDetail>>
 
-//     //@GET("/api/v1/negotiation")
-// //    @GET("api/mock/34")
-// //   suspend fun getNegotiationJobs():Responsel<NegotiationList>
+    //     @PUT("/api/v1/job/{id}")
+    @POST("api/mock/")
+    suspend fun updateJobStatus(
+//        @Path("id") id: String
+        @Query("id") id: String,
+        @Body updateJobRequest: UpdateJobRequest
+    ): Response<ApiResponse<String>>
 
-//     @GET("/api/v1/negotiation/{id}")
-//     suspend fun getNegotiationRecord(@Path("id") id: Long):Response<Negotiation>
-    
-//     @PUT("/api/v1/negotiation/{id}")
-//     suspend fun updateNegotiationRecord(
-//         @Path("id") id: Long
-//         @Body updateNegotiationRequest:UpdateNegotiationRequest
-//     ):Response<CommonApiResponse>
-    
-//     @GET("/api/v1/pharmacist/{id}")
-//     suspend fun getUserDetail(@Path("id") id: Long):Response<Pharmacist>
-    
-//     @PUT("/api/v1/pharmacist/{id}")
-//     suspend fun updateUser(
-//         @Path("id") id: Long
-//         @Body updateUserRequest:UpdateUserRequest
-//     ):Response<CommonApiResponse>
-    
+    @POST("/api/v1/negotiation")
+    suspend fun addNegotiation(
+        @Body negotiateAddRequest: NegotiateAddRequest
+    ): Response<ApiResponse<String>>
+
+    //@GET("/api/v1/negotiation")
+    //    @GET("api/mock/34")
+    //   suspend fun getNegotiationJobs():Response<NegotiationJob>
+
+    @GET("/api/v1/negotiation/{id}")
+    suspend fun getNegotiation(@Path("id") id: String): Response<ApiResponse<List<NegotiateJob>>>
+
+    @PUT("/api/v1/negotiation/{id}")
+    suspend fun updateNegotiation(
+        @Path("id") id: String,
+        @Body negotiateUpdateRequest: NegotiateUpdateRequest
+    ): Response<ApiResponse<String>>
+
+    @GET("/api/v1/pharmacist/{id}")
+    suspend fun getUserDetail(@Path("id") id: String): Response<ApiResponse<UserDetail>>
+
+    @PUT("/api/v1/pharmacist/{id}")
+    suspend fun updateUserDetail(
+        @Path("id") id: String,
+        @Body userUpdateRequest: UserUpdateRequest
+    ): Response<ApiResponse<String>>
+
 //     @POST("/api/v1/image/upload")
 //     suspend fun uploadImage(
 //         @Query("imageType") imageType: String,
 //         @Query("imageFile") imageFile: String
 //     ):Response<CommonApiResponse>
-    
+
 //     @GET("/api/v1/image/pharmacist/{id}")
 //     suspend fun getUserImageList(
-//         @Path("id") id: Long
+//         @Path("id") id: String
 //     ):Response<imageListResponse>
-    
+
 //     @GET("/api/v1/image/download/{id}")
 //     suspend fun downloadImage(
-//         @Path("id") id: Long
+//         @Path("id") id: String
 //     ):Response<image>
-    
-    
+
+
     //
 ////    @GET("api/mock/33")
 ////    fun getConfirmedJobs(): Call<JobsResponse>

@@ -46,8 +46,6 @@ class MyfavoriteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        AppLogger.d("MyfavoriteFragment", "MyfavoriteFragment --- onCreateView loaded")
-
         _binding = FragmentMyfavoriteBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -56,15 +54,11 @@ class MyfavoriteFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
-        AppLogger.d("MyfavoriteFragment", "MyfavoriteFragment --- onDestroyView")
         _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        AppLogger.d("MyfavoriteFragment", "MyfavoriteFragment --- onDestroyView")
 
         // Initialize TextViews
         apiResultTextView = binding.apiResultTextView
@@ -93,14 +87,9 @@ class MyfavoriteFragment : Fragment() {
             when (result) {
                 is ApiResult.Success -> {
                     Toast.makeText(
-                        requireContext(),
-                        "getMyFavoriteJob Successful!",
+                        requireContext(), getString(R.string.api_get_success),
                         Toast.LENGTH_SHORT
                     ).show()
-                    AppLogger.d(
-                        "MyfavoriteFragment",
-                        "myfavoriteViewModel.myfavoriteLiveData: getMyFavoriteJob Successful"
-                    )
                     // Switch to Main thread to update UI
                     lifecycleScope.launch {
                         try {
@@ -121,7 +110,7 @@ class MyfavoriteFragment : Fragment() {
                             }
                         } catch (e: Exception) {
                             withContext(Dispatchers.Main) {
-                                apiResultTextView.text = "Failed to load data"
+                                apiResultTextView.text = getString(R.string.api_get_fail)
                             }
                         }
                     }
@@ -129,11 +118,7 @@ class MyfavoriteFragment : Fragment() {
 
                 is ApiResult.Error -> {
                     // Show error message
-                    apiResultTextView.text = "Failed to load data"
-                    AppLogger.d(
-                        "MyfavoriteFragment",
-                        "LiveData: getMyFavoriteJob failed >>> " + result.message
-                    )
+                    apiResultTextView.text = getString(R.string.api_get_fail)
                 }
             }
         }

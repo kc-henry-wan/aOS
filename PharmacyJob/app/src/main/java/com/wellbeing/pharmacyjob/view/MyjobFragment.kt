@@ -43,8 +43,6 @@ class MyjobFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        AppLogger.d("MyjobFragment", "MyjobFragment --- onCreateView loaded")
-
         _binding = FragmentMyjobBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -53,16 +51,12 @@ class MyjobFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
-        AppLogger.d("MyjobFragment", "MyjobFragment --- onDestroyView")
         _binding = null
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        AppLogger.d("MyjobFragment", "MyjobFragment --- onDestroyView")
 
         // Initialize TextViews
         apiResultTextView = binding.apiResultTextView
@@ -91,14 +85,9 @@ class MyjobFragment : Fragment() {
             when (result) {
                 is ApiResult.Success -> {
                     Toast.makeText(
-                        requireContext(),
-                        "getMyJob Successful!",
+                        requireContext(), getString(R.string.api_get_success),
                         Toast.LENGTH_SHORT
                     ).show()
-                    AppLogger.d(
-                        "MyjobFragment",
-                        "myjobViewModel.myjobLiveData: getMyjobJob Successful"
-                    )
                     // Switch to Main thread to update UI
                     lifecycleScope.launch {
                         try {
@@ -119,7 +108,7 @@ class MyjobFragment : Fragment() {
                             }
                         } catch (e: Exception) {
                             withContext(Dispatchers.Main) {
-                                apiResultTextView.text = "Failed to load data"
+                                apiResultTextView.text = getString(R.string.api_get_fail)
                             }
                         }
                     }
@@ -127,11 +116,7 @@ class MyjobFragment : Fragment() {
 
                 is ApiResult.Error -> {
                     // Show error message
-                    apiResultTextView.text = "Failed to load data"
-                    AppLogger.d(
-                        "MyjobFragment",
-                        "LiveData: getMyjobJob failed >>> " + result.message
-                    )
+                    apiResultTextView.text = getString(R.string.api_get_fail)
                 }
             }
         }
@@ -147,10 +132,7 @@ class MyjobFragment : Fragment() {
 
     // Function to refresh data on swipe
     private fun refreshData() {
-        AppLogger.d(
-            "MyjobFragment",
-            "refreshData"
-        )
+        AppLogger.d("MyjobFragment", "refreshData")
         // Show loading indicator
         swipeRefreshLayout.isRefreshing = true
 
@@ -165,9 +147,8 @@ class MyjobFragment : Fragment() {
         val userId = SessionManager.getUserId(requireContext())
 
         AppLogger.d(
-            "MyjobFragment",
-            "fetchDataFromApi - Call myjobViewModel.getMyJob: userId:" + userId
+            "MyjobFragment", "fetchDataFromApi - Call myjobViewModel.getMyJob: userId:" + userId
         )
-        myjobViewModel.getMyJob(userId, requireContext())
+        myjobViewModel.getMyJob()
     }
 }

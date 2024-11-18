@@ -25,19 +25,11 @@ class MyfavoriteViewModel(private val repository: MyfavoriteRepository) : ViewMo
             )
             when (result) {
                 is ApiResult.Success -> {
-                    // Handle success
-                    AppLogger.d(
-                        "MyfavoriteViewModel",
-                        "myfavoritejob API Successful"
-                    )
+                    AppLogger.d("MyfavoriteViewModel", "myfavoritejob API Successful")
                 }
 
                 is ApiResult.Error -> {
-                    // Handle error
-                    AppLogger.d(
-                        "MyfavoriteViewModel",
-                        "myfavoritejob API Failed"
-                    )
+                    AppLogger.d("MyfavoriteViewModel", "myfavoritejob API Failed")
                 }
             }
             myfavoriteLiveData.value = result

@@ -1,6 +1,5 @@
 package com.wellbeing.pharmacyjob.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +8,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.wellbeing.pharmacyjob.R
 import com.wellbeing.pharmacyjob.model.JobList
+import com.wellbeing.pharmacyjob.utils.FavoriteManager
+import java.util.Locale
 
 class JobAdapter(
     private var jobList: List<JobList>,
     private val jobClickListener: (JobList) -> Unit
 ) : RecyclerView.Adapter<JobAdapter.JobViewHolder>() {
 
+    private lateinit var favoriteManager: FavoriteManager
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_job, parent, false)
+
+        favoriteManager = FavoriteManager(parent.context)
+
         return JobViewHolder(view)
     }
 
@@ -37,6 +43,7 @@ class JobAdapter(
         private val distanceTextView: TextView = itemView.findViewById(R.id.distanceTextView)
         private val favIcon: ImageView = itemView.findViewById(R.id.favIcon)
 
+
         fun bind(job: JobList) {
             dateTimeTextView.text =
                 "${job.jobDate} / ${job.jobStartTime.take(5)} - ${job.jobEndTime.take(5)}"
@@ -46,22 +53,22 @@ class JobAdapter(
             addressTextView.text =
                 "${job.branchAddress1}  ${job.branchAddress2}  ${job.branchPostalCode}"
             distanceTextView.text =
-                String.format("%.2f miles", job.distance) // Assuming distance is a Double
+                String.format(Locale.UK, "%.2f miles", job.distance)
 
 
             // Check the favorite state from SharedPreferences
-            val sharedPref =
-                itemView.context.getSharedPreferences("favorites", Context.MODE_PRIVATE)
-            val isFavorite = sharedPref.getBoolean("job_${job.jobId}", false)
+            val isFavorite = favoriteManager.isFavorite(job.jobId)
             updateFavoriteIcon(isFavorite)
 
 
             // Handle favorite icon click
             favIcon.setOnClickListener {
-                val isCurrentlyFavorite = sharedPref.getBoolean("job_${job.jobId}", false)
-                val editor = sharedPref.edit()
-                editor.putBoolean("job_${job.jobId}", !isCurrentlyFavorite)
-                editor.apply()
+                val isCurrentlyFavorite = favoriteManager.isFavorite(job.jobId)
+                if (isCurrentlyFavorite) {
+                    favoriteManager.removeFavorite(job.jobId)
+                } else {
+                    favoriteManager.addFavorite(job.jobId)
+                }
                 updateFavoriteIcon(!isCurrentlyFavorite)
             }
         }

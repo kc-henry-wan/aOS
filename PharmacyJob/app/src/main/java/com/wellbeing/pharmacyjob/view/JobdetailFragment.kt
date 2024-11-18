@@ -10,9 +10,22 @@ import android.widget.GridView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.wellbeing.pharmacyjob.R
 import com.wellbeing.pharmacyjob.adapter.JobGridAdapter
+import com.wellbeing.pharmacyjob.api.ApiResult
+import com.wellbeing.pharmacyjob.api.RetrofitInstance
 import com.wellbeing.pharmacyjob.databinding.FragmentJobdetailBinding
+import com.wellbeing.pharmacyjob.factory.JobDetailViewModelFactory
+import com.wellbeing.pharmacyjob.factory.JobUpdateViewModelFactory
 import com.wellbeing.pharmacyjob.model.JobList
+import com.wellbeing.pharmacyjob.model.UpdateJobRequest
+import com.wellbeing.pharmacyjob.repository.JobDetailRepository
+import com.wellbeing.pharmacyjob.repository.JobUpdateRepository
+import com.wellbeing.pharmacyjob.viewmodel.JobDetailViewModel
+import com.wellbeing.pharmacyjob.viewmodel.JobUpdateViewModel
+import java.util.Locale
 
 class JobdetailFragment : Fragment() {
 
@@ -32,8 +45,9 @@ class JobdetailFragment : Fragment() {
 
     private lateinit var jobGridView: GridView
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private lateinit var apiResultTextView: TextView
+    private lateinit var jobDetailViewModel: JobDetailViewModel
+    private lateinit var jobUpdateViewModel: JobUpdateViewModel
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -69,7 +83,7 @@ class JobdetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        AppLogger.d("JobdetailFragment", "JobdetailFragment --- onDestroyView")
+        AppLogger.d("JobdetailFragment", "JobdetailFragment --- onViewCreated")
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -85,72 +99,119 @@ class JobdetailFragment : Fragment() {
         withdrawButton = binding.btnWithdraw
 
         jobGridView = binding.jobGridView
+        apiResultTextView = binding.apiResultTextView
+
+        AppLogger.d("JobdetailFragment", "1")
 
         // Retrieve the item data passed from the previous fragment
         val item = arguments?.getParcelable<JobList>("item")
-val jobId : Long
-        val updatedAt: LocalDateTime
-        
+        var jobId: String = ""
+        var updatedAt: String = ""
+        var distance: String = ""
+
+        AppLogger.d("JobdetailFragment", "2")
+
         item?.let {
-            tvJobID.text = it.jobId
-            tvBranchName.text = it.branchName
-            tvLunchArrangement.text = it.lunchArrangement
-            tvParkingOption.text = it.parkingOption
-            tvRatePerMile.text = String.format("%.2f", it.ratePerMile)
-            tvAddress.text =
-                it.branchAddress1 + " \n " + it.branchAddress2 + " \n " + it.branchPostalCode
+            jobId = it.jobId
+            distance = String.format(Locale.UK, "%.2f miles", it.distance)
+            AppLogger.d("JobdetailFragment", "3:" + distance)
 
-            val dataList = listOf(
-                "Date:\n" + it.jobDate,
-                "Time:\n" + it.jobStartTime.take(5) + " - " + it.jobEndTime.take(5),
-                "Distance:\n" + String.format("%.2f miles", it.distance),
-                "Working Hour:\n" + String.format("%.2f", it.totalWorkHour) + " hours",
-                "Hourly Rate:\n£" + String.format("%.2f", it.hourlyRate) + "/hr",
-                "Total Paid:\n£" + String.format("%.2f", it.totalPaid),
-            )
-
-            // Set up the adapter
-            val adapter = JobGridAdapter(requireContext(), dataList)
-            jobGridView.adapter = adapter
-
-            jobID = it.jobId
-            updatedAt = it.updatedAt
         }
+
+        val apiService = RetrofitInstance.api // Your Retrofit API service
+        val repository = JobDetailRepository(apiService)
+        val repositoryUpdate = JobUpdateRepository(apiService)
+
+        AppLogger.d("JobdetailFragment", "4")
+        jobDetailViewModel = ViewModelProvider(this, JobDetailViewModelFactory(repository))
+            .get(JobDetailViewModel::class.java)
+
+        // Observe the ViewModel LiveData for API response status
+        jobDetailViewModel.liveData.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is ApiResult.Success -> {
+                    AppLogger.d("JobdetailFragment", "5:" + result)
+
+                    val job = result.data?.data
+
+                    AppLogger.d("JobdetailFragment", "6:")
+                    updatedAt = job?.updatedAt.toString()
+                    AppLogger.d("JobdetailFragment", "7:" + updatedAt)
+                    tvJobID.text = job?.jobId
+                    tvBranchName.text = job?.branchName
+                    tvLunchArrangement.text = job?.lunchArrangement
+                    tvParkingOption.text = job?.parkingOption
+                    tvRatePerMile.text = String.format(Locale.UK, "%.2f", job?.ratePerMile)
+//                    tvAddress.text =
+//                        job?.branchAddress1 + " \n " + job?.branchAddress2 + " \n " + job?.branchPostalCode
+                    tvAddress.text = getString(
+                        R.string.address_format,
+                        job?.branchAddress1 ?: "",
+                        job?.branchAddress2 ?: "",
+                        job?.branchPostalCode ?: ""
+                    )
+                    val dataList = listOf(
+                        "Date:\n" + job?.jobDate,
+                        "Time:\n" + job?.jobStartTime?.take(5) + " - " + job?.jobEndTime?.take(5),
+                        "Distance:\n$distance",
+                        "Working Hour:\n" + job?.totalWorkHour + " hours",
+                        "Hourly Rate:\n£" + job?.hourlyRate + "/hr",
+                        "Total Paid:\n£" + job?.totalPaid,
+                    )
+
+                    // Set up the adapter
+                    val adapter = JobGridAdapter(requireContext(), dataList)
+                    jobGridView.adapter = adapter
+
+                }
+
+                is ApiResult.Error -> {
+                    AppLogger.d("JobdetailFragment", "API fail")
+                    apiResultTextView.text = getString(R.string.api_get_fail)
+                }
+            }
+        })
+
+        jobUpdateViewModel = ViewModelProvider(this, JobUpdateViewModelFactory(repositoryUpdate))
+            .get(JobUpdateViewModel::class.java)
+
+        // Observe the ViewModel LiveData for API response status
+        jobUpdateViewModel.liveData.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is ApiResult.Success -> {
+                    apiResultTextView.text = getString(R.string.api_update_success)
+                    onBackButton()
+                }
+
+                is ApiResult.Error -> {
+                    apiResultTextView.text = getString(R.string.api_update_fail)
+                }
+            }
+        })
 
 //        backButton.setOnClickListener {
 //            onBackButton()
 //        }
         applyButton.setOnClickListener {
-            applyJob(jobID, updatedAt)
+            jobUpdateViewModel.updateJobStatus(
+                jobId, UpdateJobRequest("8", getString(R.string.job_status_apply), updatedAt)
+            )
         }
         negotiateButton.setOnClickListener {
-            negotiateJob(jobID, updatedAt)
+            //Goto negotitaion page
         }
         withdrawButton.setOnClickListener {
-            withdrawJob(jobID, updatedAt)
+            jobUpdateViewModel.updateJobStatus(
+                jobId, UpdateJobRequest("8", getString(R.string.job_status_withdraw), updatedAt)
+            )
         }
+
+        jobDetailViewModel.getJobDetail(jobId)
     }
 
     private fun onBackButton() {
 //            findNavController().navigateUp()
         requireActivity().supportFragmentManager.popBackStack()
-    }
-
-    private fun applyJob(Long jobID, LocalDateTime updatedAt) {
-            // val request = JobUpdateRequest(
-            //     status = "Apply", 
-            //     updatedAt = updatedAt
-            // )
-            // updateJobData(jobID, request)
-            // finish()
-    }
-
-    private fun negotiateJob() {
-//        finish()
-    }
-
-    private fun withdrawJob() {
-//        finish()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -160,41 +221,8 @@ val jobId : Long
                 onBackButton()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-
-    // private fun updateJobData(id: Long, request: JobUpdateRequest) {
-    //     // Initialize the repository and ViewModel
-    //     val apiService = RetrofitInstance.api // Your Retrofit API service
-    //     val repository = JobUpdateRepository(apiService)
-
-    //     JobUpdateViewModel = ViewModelProvider(this, JobUpdateViewModelFactory(repository))
-    //         .get(JobUpdateViewModel::class.java)
-
-    //     JobUpdateViewModel.updateLiveData.observe(this, Observer { result ->
-    //         when (result) {
-    //             is ApiResult.Success -> {
-    //                 // Handle successful login, navigate to the next screen
-    //                 Toast.makeText(this, "Update successful!", Toast.LENGTH_SHORT).show()
-    //                 AppLogger.d(
-    //                     "JobdetailFragment",
-    //                     "JobUpdateViewModel.updateLiveData: Login Successful"
-    //                 )
-    //                 navigateToHomeScreen()
-    //             }
-
-    //             is ApiResult.Error -> {
-    //                 // Show error message
-    //                 Toast.makeText(this, "Update failed: ${response.code()}", Toast.LENGTH_SHORT).show()
-    //                 AppLogger.d(
-    //                     "JobdetailFragment",
-    //                     "JobUpdateViewModel.updateLiveData: Login failed >>> " + result.message
-    //                 )
-    //             }
-    //         }
-    //     }
-    // }
-    
 }

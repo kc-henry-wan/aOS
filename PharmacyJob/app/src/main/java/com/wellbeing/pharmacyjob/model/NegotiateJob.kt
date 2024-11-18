@@ -1,6 +1,10 @@
 package com.wellbeing.pharmacyjob.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 data class NegotiateJob(
     val negotiateId: Int? = null,
     val jobID: String,
@@ -24,4 +28,4 @@ data class NegotiateJob(
     val branchPostalCode: String,
     val status: String,
     val updatedAt: String
-)
+) : Parcelable

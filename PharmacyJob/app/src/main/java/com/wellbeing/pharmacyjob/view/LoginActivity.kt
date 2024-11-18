@@ -11,11 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.wellbeing.pharmacyjob.MainActivity
-import com.wellbeing.pharmacyjob.repository.LoginRepository
-import com.wellbeing.pharmacyjob.factory.LoginViewModelFactory
 import com.wellbeing.pharmacyjob.api.ApiResult
 import com.wellbeing.pharmacyjob.api.RetrofitInstance
 import com.wellbeing.pharmacyjob.databinding.ActivityLoginBinding
+import com.wellbeing.pharmacyjob.factory.LoginViewModelFactory
+import com.wellbeing.pharmacyjob.repository.LoginRepository
 import com.wellbeing.pharmacyjob.viewmodel.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -57,20 +57,12 @@ class LoginActivity : AppCompatActivity() {
                 is ApiResult.Success -> {
                     // Handle successful login, navigate to the next screen
                     logonResultTextView.text = "Login Successful!"
-                    AppLogger.d(
-                        "LoginActivity",
-                        "loginViewModel.loginLiveData: Login Successful"
-                    )
                     navigateToHomeScreen()
                 }
 
                 is ApiResult.Error -> {
                     // Show error message
-                    logonResultTextView.text = "Login failed: "+result.message
-                    AppLogger.d(
-                        "LoginActivity",
-                        "loginViewModel.loginLiveData: Login failed >>> " + result.message
-                    )
+                    logonResultTextView.text = "Login failed: " + result.message
                 }
             }
         })

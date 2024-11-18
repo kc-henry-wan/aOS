@@ -6,8 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.wellbeing.pharmacyjob.R
 import com.wellbeing.pharmacyjob.databinding.ActivityCreateAccountBinding
-import com.wellbeing.pharmacyjob.databinding.ActivityLoginBinding
 
 class CreateAccountActivity : AppCompatActivity() {
 
@@ -31,8 +31,9 @@ class CreateAccountActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString()
 
             if (username.isNotBlank() && password.isNotBlank()) {
-                // Simulate account creation (in real case, call your API to create the account)
-                Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show()
+                // TODO: Call API
+                Toast.makeText(this, getString(R.string.api_update_success), Toast.LENGTH_SHORT)
+                    .show()
 
                 // Return to LoginActivity after successful account creation
                 val intent = Intent(this, LoginActivity::class.java)

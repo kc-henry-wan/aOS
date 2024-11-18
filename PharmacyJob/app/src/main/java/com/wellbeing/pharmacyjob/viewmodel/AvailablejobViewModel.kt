@@ -13,7 +13,12 @@ import kotlinx.coroutines.launch
 class AvailablejobViewModel(private val repository: AvailablejobRepository) : ViewModel() {
     val availablejobLiveData = MutableLiveData<ApiResult<JobListResponse>>()
 
-    fun getAvailablejob(startDate: String, endDate: String, apiDataSortBy: String, context: Context) {
+    fun getAvailablejob(
+        startDate: String,
+        endDate: String,
+        apiDataSortBy: String,
+        context: Context
+    ) {
         // Launch a coroutine in viewModelScope
         viewModelScope.launch {
             val result = ApiHelper.safeApiCall {
@@ -25,7 +30,7 @@ class AvailablejobViewModel(private val repository: AvailablejobRepository) : Vi
             }
             AppLogger.d(
                 "AvailablejobViewModel",
-                "viewModelScope.launch > safeApiCall: " + result.data.toString()
+                "getAvailablejob > safeApiCall: " + result.data.toString()
             )
             when (result) {
                 is ApiResult.Success -> {

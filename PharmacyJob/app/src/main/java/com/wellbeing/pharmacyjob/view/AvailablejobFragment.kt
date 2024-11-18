@@ -85,9 +85,9 @@ class AvailablejobFragment : Fragment() {
 
         joblistAdapter = JobAdapter(emptyList()) { item ->
             // Navigate to DetailFragment with item data
-            val jobdetailFragment = JobdetailFragment.newInstance(item)
+            val jobDetailFragment = JobdetailFragment.newInstance(item)
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_activity_main, jobdetailFragment)
+                .replace(R.id.nav_host_fragment_activity_main, jobDetailFragment)
                 .addToBackStack(null)
                 .commit()
         }
@@ -106,13 +106,9 @@ class AvailablejobFragment : Fragment() {
                     // Handle successful login, navigate to the next screen
                     Toast.makeText(
                         requireContext(),
-                        "getAvailableJob Successful!",
+                        getString(R.string.api_get_success),
                         Toast.LENGTH_SHORT
                     ).show()
-                    AppLogger.d(
-                        "AvailablejobFragment",
-                        "availablejobViewModel.availablejobLiveData: getAvailableJob Successful"
-                    )
                     // Switch to Main thread to update UI
                     lifecycleScope.launch {
                         try {
@@ -126,11 +122,9 @@ class AvailablejobFragment : Fragment() {
                         } catch (e: Exception) {
                             withContext(Dispatchers.Main) {
                                 Toast.makeText(
-                                    requireContext(),
-                                    "Failed to load data",
+                                    requireContext(), getString(R.string.api_get_fail),
                                     Toast.LENGTH_SHORT
-                                )
-                                    .show()
+                                ).show()
                             }
                         }
                     }
@@ -139,15 +133,9 @@ class AvailablejobFragment : Fragment() {
                 is ApiResult.Error -> {
                     // Show error message
                     Toast.makeText(
-                        requireContext(),
-                        "getAvailableJob failed: ${result.message}",
+                        requireContext(), getString(R.string.api_get_fail) + result.message,
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    AppLogger.d(
-                        "AvailablejobFragment",
-                        "availablejobViewModel.availablejobLiveData: getAvailableJob failed >>> " + result.message
-                    )
+                    ).show()
                 }
             }
         }
@@ -186,8 +174,6 @@ class AvailablejobFragment : Fragment() {
                 } else {
                     endDateText.text = formatDate(selectedDate)
                 }
-                // Optionally, reload the job list here based on selected dates
-                AppLogger.d("AvailablejobFragment", "Call fetchDataFromApi on DatePicker")
                 fetchDataFromApi("") // Reload jobs with the updated date range if necessary
             },
             calendar.get(Calendar.YEAR),

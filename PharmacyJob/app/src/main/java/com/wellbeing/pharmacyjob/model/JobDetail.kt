@@ -8,7 +8,7 @@ data class JobDetail(
     val jobEndTime: String,
     val hourlyRate: Int,
     val totalPaid: Int,
-    val totalPaidHour: Int,
+    val totalWorkHour: Int,
     val lunchArrangement: String,
     val parkingOption: String,
     val ratePerMile: Double,
@@ -19,4 +19,3 @@ data class JobDetail(
     val branchAddress2: String,
     val branchPostalCode: String
 )
-

@@ -1,5 +1,6 @@
 package com.wellbeing.pharmacyjob.api
 
+import AppLogger
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -10,7 +11,9 @@ import retrofit2.Response
 object ApiHelper {
     suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): ApiResult<T> {
         return try {
+            AppLogger.d("ApiHelper", "apiCall:" + apiCall)
             val response = apiCall()
+            AppLogger.d("ApiHelper", "safeApiCall:" + response)
             if (response.isSuccessful) {
                 response.body()?.let {
                     ApiResult.Success(it)
@@ -50,7 +53,8 @@ object ApiHelper {
     }
 
     private fun saveSessionKey(sessionKey: String, context: Context) {
-        val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
         sharedPreferences.edit().putString("sessionKey", sessionKey).apply()
     }
 

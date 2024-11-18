@@ -7,4 +7,14 @@
     <string name="title_negotiate">Under Negotiation</string>
     <string name="title_jobdetail">Job Detail</string>
     <string name="text_fav">Favorite Icon</string>
+    <string name="address_format">%1$s\n%2$s\n%3$s</string>
+    <string name="date_time_format">%1$s / %2$s - %3$s</string>
+    <string name="hourly_rate_format">£%1$s/hr</string>
+    <string name="total_paid_format">Total: £%1$s</string>
+    <string name="api_get_success">Retrieve data successful</string>
+    <string name="api_get_fail">Failed to retrieve data</string>
+    <string name="api_update_success">Update successful</string>
+    <string name="api_update_fail">Failed to update data</string>
+    <string name="job_status_apply">Apply</string>
+    <string name="job_status_withdraw">Withdraw</string>
 </resources>
