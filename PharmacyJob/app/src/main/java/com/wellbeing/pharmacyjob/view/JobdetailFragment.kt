@@ -137,7 +137,7 @@ class JobdetailFragment : Fragment() {
                     AppLogger.d("JobdetailFragment", "6:")
                     updatedAt = job?.updatedAt.toString()
                     AppLogger.d("JobdetailFragment", "7:" + updatedAt)
-                    tvJobID.text = job?.jobId
+                    tvJobID.text = job?.jobRef
                     tvBranchName.text = job?.branchName
                     tvLunchArrangement.text = job?.lunchArrangement
                     tvParkingOption.text = job?.parkingOption
@@ -163,6 +163,15 @@ class JobdetailFragment : Fragment() {
                     val adapter = JobGridAdapter(requireContext(), dataList)
                     jobGridView.adapter = adapter
 
+                    if (job?.status == "Open") {
+                        applyButton.visibility = View.VISIBLE
+                        negotiateButton.visibility = View.VISIBLE
+                        withdrawButton.visibility = View.GONE
+                    } else if (job?.status == "Assigned") {
+                        applyButton.visibility = View.GONE
+                        negotiateButton.visibility = View.GONE
+                        withdrawButton.visibility = View.VISIBLE
+                    }
                 }
 
                 is ApiResult.Error -> {
