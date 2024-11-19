@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class NegotiationList(
-    val negotiationId: Int? = null,
+    val negotiationId: String,
     val jobId: String,
     val jobRef: String,
     val jobDate: String,

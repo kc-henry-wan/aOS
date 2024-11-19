@@ -3,24 +3,20 @@ package com.wellbeing.pharmacynego.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.wellbeing.pharmacyjob.R
 import com.wellbeing.pharmacyjob.model.NegotiationList
-import com.wellbeing.pharmacyjob.utils.FavoriteManager
 
 class NegotiationAdapter(
     private var negotiationList: List<NegotiationList>,
     private val negoClickListener: (NegotiationList) -> Unit
 ) : RecyclerView.Adapter<NegotiationAdapter.NegotiationViewHolder>() {
 
-    private lateinit var favoriteManager: FavoriteManager
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NegotiationViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_job, parent, false)
-
-        favoriteManager = FavoriteManager(parent.context)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_negotiation, parent, false)
 
         return NegotiationViewHolder(view)
     }
@@ -34,32 +30,39 @@ class NegotiationAdapter(
     override fun getItemCount(): Int = negotiationList.size
 
     inner class NegotiationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val dateTimeTextView: TextView = itemView.findViewById(R.id.dateTimeTextView)
-        private val hourlyRateTextView: TextView = itemView.findViewById(R.id.hourlyRateTextView)
-        private val totalTextView: TextView = itemView.findViewById(R.id.totalTextView)
-        private val branchNameTextView: TextView = itemView.findViewById(R.id.branchNameTextView)
-        private val addressTextView: TextView = itemView.findViewById(R.id.addressTextView)
-        private val distanceTextView: TextView = itemView.findViewById(R.id.distanceTextView)
-        private val favIcon: ImageView = itemView.findViewById(R.id.favIcon)
+        private val tvDateTime: TextView = itemView.findViewById(R.id.tvDateTime)
+        private val tvOriginal: TextView = itemView.findViewById(R.id.tvOriginal)
+        private val tvPurposed: TextView = itemView.findViewById(R.id.tvPurposed)
+        private val tvStatus: TextView = itemView.findViewById(R.id.tvStatus)
 
 
         fun bind(nego: NegotiationList) {
-            dateTimeTextView.text =
+            tvDateTime.text =
                 "${nego.jobDate} / ${nego.jobStartTime.take(5)} - ${nego.jobEndTime.take(5)}"
-            hourlyRateTextView.text = "£${nego.purposedHourlyRate}/hr"
-            totalTextView.text = "  Total: £${nego.purposedTotalPaid}"
-            branchNameTextView.text = nego.branchName
-            addressTextView.text =
-                "${nego.branchAddress1}  ${nego.branchAddress2}  ${nego.branchPostalCode}"
-            distanceTextView.text = "1.25"
-//                String.format(Locale.UK, "%.2f miles", nego.distance)
+            tvOriginal.text =
+                "Original: £${nego.originalHourlyRate}/hr; Total: £${nego.originalTotalPaid}"
+
+            if (nego.counterHourlyRate > 0) {
+
+                tvPurposed.text =
+                    "Admin purposed: £${nego.counterHourlyRate}/hr; Total: £${nego.counterHourlyRate}"
+            } else {
+                tvPurposed.text =
+                    "Your purposed: £${nego.purposedHourlyRate}/hr; Total: £${nego.purposedTotalPaid}"
+            }
+
+            if (nego.status == "New") {
+                tvStatus.text = nego.status + "\n (Pending approval)"
+            } else {
+                tvStatus.text = nego.status
+            }
         }
 
     }
 
 
     fun updateData(newItems: List<NegotiationList>) {
-        AppLogger.d("JobAdapter", "updateData, size:" + negotiationList.size)
+        AppLogger.d("NegotiationAdapter", "updateData, size:" + negotiationList.size)
         negotiationList = newItems
         notifyDataSetChanged()
     }

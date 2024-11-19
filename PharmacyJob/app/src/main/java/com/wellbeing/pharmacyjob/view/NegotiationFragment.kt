@@ -32,7 +32,7 @@ class NegotiationFragment : Fragment() {
     private var _binding: FragmentNegotiationBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private lateinit var negotiationlistAdapter: NegotiationAdapter
+    private lateinit var negotiationAdapter: NegotiationAdapter
     private val negotiationList: MutableList<NegotiationList> = mutableListOf()
     private lateinit var negotiationViewModel: NegotiationViewModel
     private lateinit var apiResultTextView: TextView
@@ -66,16 +66,15 @@ class NegotiationFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         AppLogger.d("NegotiationFragment", "onViewCreated 2")
-//        negotiationlistAdapter = NegotiationAdapter(emptyList()) { item ->
-        // Navigate to DetailFragment with item data
-//            val jobdetailFragment = JobdetailFragment.newInstance(item)
-//            requireActivity().supportFragmentManager.beginTransaction()
-//                .replace(R.id.nav_host_fragment_activity_main, jobdetailFragment)
-//                .addToBackStack(null)
-//                .commit()
-//        }
-        negotiationlistAdapter = NegotiationAdapter(emptyList()) { item -> }
-        recyclerView.adapter = negotiationlistAdapter
+        negotiationAdapter = NegotiationAdapter(emptyList()) { item ->
+            //Navigate to DetailFragment with item data
+            val negotiationdetailFragment = NegotiationdetailFragment.newInstance(item)
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment_activity_main, negotiationdetailFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+        recyclerView.adapter = negotiationAdapter
 
         AppLogger.d("NegotiationFragment", "onViewCreated 3")
         val apiService = RetrofitInstance.api // Your Retrofit API service
@@ -100,7 +99,7 @@ class NegotiationFragment : Fragment() {
                                 result.data?.data?.content?.forEach { item ->
                                     negotiationList.add(item)
                                 }
-                                negotiationlistAdapter.updateData(negotiationList)
+                                negotiationAdapter.updateData(negotiationList)
 
                                 if (negotiationList.isEmpty()) {
                                     AppLogger.d("NegotiationFragment", "negotiationList.isEmpty")

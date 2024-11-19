@@ -25,4 +25,7 @@
     <string name="negotiate_new_confirmation">Please input your purposed hourly rate:</string>
     <string name="negotiate_new_error">Invalid purposed hourly rate!!</string>
     <string name="negotiate_new_input">Your purposed total paid is:</string>
+    <string name="negotiation_status_accept">Accept</string>
+    <string name="negotiation_status_counter">Counter Purposed</string>
+    <string name="negotiation_accept_confirmation">Do you really want to accept this hourly rate?</string>
 </resources>
