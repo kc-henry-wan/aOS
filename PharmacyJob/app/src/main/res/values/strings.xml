@@ -17,6 +17,8 @@
     <string name="api_update_fail">Failed to update data</string>
     <string name="job_status_apply">Apply</string>
     <string name="job_status_withdraw">Withdraw</string>
+    <string name="job_status_assigned">Assigned</string>
+    <string name="job_status_completed">Completed</string>
     <string name="job_apply_confirmation">Do you really want to apply this job?</string>
     <string name="job_withdraw_confirmation">Do you really want to withdraw this job?</string>
     <string name="negotiate_status_new">New</string>

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -80,7 +86,7 @@ android:clickable="true"
     <GridView
         android:id="@+id/jobGridView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="240dp"
         android:gravity="center"
         android:horizontalSpacing="10dp"
         android:numColumns="3"
@@ -154,18 +160,41 @@ android:clickable="true"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text=""
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/labelParkingOption"
         app:layout_constraintTop_toTopOf="@id/labelParkingOption"
         app:layout_constraintWidth_percent="0.55" />
+
+    <TextView
+        android:id="@+id/labelStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Status:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@+id/dataStatus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelParkingOption"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/dataStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/labelStatus"
+        app:layout_constraintTop_toTopOf="@id/labelStatus"
+        app:layout_constraintWidth_percent="0.55" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/labelParkingOption">
+        app:layout_constraintTop_toBottomOf="@+id/labelStatus">
 
             <TextView
                 android:id="@+id/apiResultTextView"
@@ -200,3 +229,5 @@ android:clickable="true"
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -13,17 +13,20 @@ import com.wellbeing.pharmacyjob.model.RegUserRequest
 import com.wellbeing.pharmacyjob.model.UpdateJobRequest
 import com.wellbeing.pharmacyjob.model.UserDetail
 import com.wellbeing.pharmacyjob.model.UserUpdateRequest
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
 
-    @POST("/api/auth/v1/register")
+    //@POST("/api/auth/v1/register")
+    @POST("api/mock/")
     suspend fun registerNewUser(@Body regUserRequest: RegUserRequest): Response<ApiResponse<String>>
 
     @POST("/api/auth/v1/request-password-reset")
@@ -47,7 +50,7 @@ interface ApiService {
 
     // @POST("/api/v1/myjob")
     @GET("api/mock/2")
-    suspend fun getMyJob(): Response<JobListResponse>
+    suspend fun getMyJob(@Query("status") status: String): Response<JobListResponse>
 
     //    @GET("/api/v1/job/{id}")
     @GET("api/mock/7")
@@ -83,20 +86,22 @@ interface ApiService {
         @Body negotiateUpdateRequest: NegotiateUpdateRequest
     ): Response<ApiResponse<String>>
 
-    @GET("/api/v1/pharmacist/{id}")
-    suspend fun getUserDetail(@Path("id") id: String): Response<ApiResponse<UserDetail>>
+    //@GET("/api/v1/pharmacist/")
+    @GET("api/mock/12")
+    suspend fun getUserDetail(): Response<ApiResponse<UserDetail>>
 
-    @PUT("/api/v1/pharmacist/{id}")
+    //@PUT("/api/v1/pharmacist/")
+    @POST("api/mock/")
     suspend fun updateUserDetail(
-        @Path("id") id: String,
         @Body userUpdateRequest: UserUpdateRequest
     ): Response<ApiResponse<String>>
 
-//     @POST("/api/v1/image/upload")
-//     suspend fun uploadImage(
-//         @Query("imageType") imageType: String,
-//         @Query("imageFile") imageFile: String
-//     ):Response<CommonApiResponse>
+    @POST("/api/v1/image/upload")
+    suspend fun uploadImage(
+        @Query("imageType") imageType: String,
+        @Part imageFile: MultipartBody.Part
+    ): Response<ApiResponse<String>>
+
 
 //     @GET("/api/v1/image/pharmacist/{id}")
 //     suspend fun getUserImageList(

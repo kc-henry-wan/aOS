@@ -6,32 +6,32 @@ import androidx.lifecycle.viewModelScope
 import com.wellbeing.pharmacyjob.api.ApiHelper
 import com.wellbeing.pharmacyjob.api.ApiResult
 import com.wellbeing.pharmacyjob.model.ApiResponse
-import com.wellbeing.pharmacyjob.model.UserDetail
-import com.wellbeing.pharmacyjob.repository.UserDetailRepository
+import com.wellbeing.pharmacyjob.repository.UploadImageRepository
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 
-class UserDetailViewModel(private val repository: UserDetailRepository) : ViewModel() {
+class UploadImageViewModel(private val repository: UploadImageRepository) : ViewModel() {
 
-    val liveData = MutableLiveData<ApiResult<ApiResponse<UserDetail>>>()
+    val liveData = MutableLiveData<ApiResult<ApiResponse<String>>>()
 
-    fun getUserDetail() {
+    fun uploadImage(imageType: String, imageFile: MultipartBody.Part) {
         // Launch a coroutine in viewModelScope
         viewModelScope.launch {
             val result = ApiHelper.safeApiCall {
-                repository.getUserDetail()
+                repository.uploadImage(imageType, imageFile)
             }
 
             AppLogger.d(
-                "UserDetailViewModel",
-                "getUserDetail > safeApiCall: " + result.data.toString()
+                "UploadImageViewModel",
+                "uploadImage > safeApiCall: " + result.data.toString()
             )
             when (result) {
                 is ApiResult.Success -> {
-                    AppLogger.d("UserDetailViewModel", "getUserDetail API Successful")
+                    AppLogger.d("UploadImageViewModel", "uploadImage API Successful")
                 }
 
                 is ApiResult.Error -> {
-                    AppLogger.d("UserDetailViewModel", "getUserDetail API Failed")
+                    AppLogger.d("UploadImageViewModel", "uploadImage API Failed")
                 }
             }
             liveData.value = result

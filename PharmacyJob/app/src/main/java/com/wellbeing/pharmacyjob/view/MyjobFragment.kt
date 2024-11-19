@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -17,7 +18,6 @@ import com.wellbeing.pharmacyjob.R
 import com.wellbeing.pharmacyjob.adapter.JobAdapter
 import com.wellbeing.pharmacyjob.api.ApiResult
 import com.wellbeing.pharmacyjob.api.RetrofitInstance
-import com.wellbeing.pharmacyjob.api.SessionManager
 import com.wellbeing.pharmacyjob.databinding.FragmentMyjobBinding
 import com.wellbeing.pharmacyjob.factory.MyjobViewModelFactory
 import com.wellbeing.pharmacyjob.model.JobList
@@ -37,6 +37,10 @@ class MyjobFragment : Fragment() {
     private lateinit var myjobViewModel: MyjobViewModel
     private lateinit var apiResultTextView: TextView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var tabStatus: String
+    private lateinit var btnOutstanding: Button
+    private lateinit var btnCompleted: Button
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +65,8 @@ class MyjobFragment : Fragment() {
         // Initialize TextViews
         apiResultTextView = binding.apiResultTextView
         swipeRefreshLayout = binding.swipeRefreshLayout
+        btnOutstanding = binding.btnOutstanding
+        btnCompleted = binding.btnCompleted
 
         recyclerView = binding.myjobRecycler
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -127,7 +133,25 @@ class MyjobFragment : Fragment() {
             refreshData()
         }
 
-        fetchDataFromApi()
+        btnOutstanding.setOnClickListener {
+            // Handle 'Outstanding' tab selection
+            tabStatus = getString(R.string.job_status_assigned)
+            btnOutstanding.isSelected = true
+            btnCompleted.isSelected = false
+            fetchDataFromApi()
+            // Show Outstanding content
+        }
+
+        btnCompleted.setOnClickListener {
+            // Handle 'Completed' tab selection
+            tabStatus = getString(R.string.job_status_completed)
+            btnOutstanding.isSelected = false
+            btnCompleted.isSelected = true
+            fetchDataFromApi()
+            // Show Completed content
+        }
+
+        btnOutstanding.callOnClick()
     }
 
     // Function to refresh data on swipe
@@ -143,12 +167,8 @@ class MyjobFragment : Fragment() {
     }
 
     private fun fetchDataFromApi() {
-
-        val userId = SessionManager.getUserId(requireContext())
-
-        AppLogger.d(
-            "MyjobFragment", "fetchDataFromApi - Call myjobViewModel.getMyJob: userId:" + userId
-        )
-        myjobViewModel.getMyJob()
+        myjobViewModel.getMyJob(tabStatus)
     }
+
+
 }

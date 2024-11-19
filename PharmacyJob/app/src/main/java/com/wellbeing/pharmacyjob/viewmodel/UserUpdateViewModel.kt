@@ -14,11 +14,11 @@ class UserUpdateViewModel(private val repository: UserUpdateRepository) : ViewMo
 
     val liveData = MutableLiveData<ApiResult<ApiResponse<String>>>()
 
-    fun updateUserDetail(id: String, request: UserUpdateRequest) {
+    fun updateUserDetail(request: UserUpdateRequest) {
         // Launch a coroutine in viewModelScope
         viewModelScope.launch {
             val result = ApiHelper.safeApiCall {
-                repository.updateUserDetail(id, request)
+                repository.updateUserDetail(request)
             }
 
             AppLogger.d(

@@ -13,11 +13,11 @@ class MyjobViewModel(private val repository: MyjobRepository) : ViewModel() {
 
     val myjobLiveData = MutableLiveData<ApiResult<JobListResponse>>()
 
-    fun getMyJob() {
+    fun getMyJob(status: String) {
 
         viewModelScope.launch {
             val result = ApiHelper.safeApiCall {
-                repository.getMyJob()
+                repository.getMyJob(status)
             }
             AppLogger.d(
                 "MyjobViewModel",

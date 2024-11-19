@@ -7,8 +7,8 @@ import retrofit2.Response
 class MyjobRepository(private val apiService: ApiService) {
 
     // A suspend function to perform the login request via API
-    suspend fun getMyJob(): Response<JobListResponse> {
+    suspend fun getMyJob(status: String): Response<JobListResponse> {
         // Calls the API to perform login and return the response
-        return apiService.getMyJob()
+        return apiService.getMyJob(status)
     }
 }

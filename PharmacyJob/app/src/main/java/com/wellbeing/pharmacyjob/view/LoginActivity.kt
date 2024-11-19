@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var createAccountLink: TextView
     private lateinit var logonResultTextView: TextView
     private lateinit var loginViewModel: LoginViewModel
-    private lateinit var gotoHomeButton: Button
+//    private lateinit var gotoHomeButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
         loginButton = binding.loginButton
         createAccountLink = binding.createAccountLink
         logonResultTextView = binding.logonResultTextView
-        gotoHomeButton = binding.gotoHomeButton
+//        gotoHomeButton = binding.gotoHomeButton
 
         val username = usernameEditText.text.toString()
         val password = passwordEditText.text.toString()
@@ -81,9 +81,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        gotoHomeButton.setOnClickListener {
-            navigateToHomeScreen()
-        }
+//        gotoHomeButton.setOnClickListener {
+//            navigateToHomeScreen()
+//        }
     }
 
     private fun navigateToHomeScreen() {

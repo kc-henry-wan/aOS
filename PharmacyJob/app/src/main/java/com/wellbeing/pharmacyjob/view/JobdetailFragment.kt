@@ -39,6 +39,7 @@ import java.util.Locale
 class JobdetailFragment : Fragment() {
 
     private var _binding: FragmentJobdetailBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var tvJobID: TextView
     private lateinit var tvBranchName: TextView
@@ -46,6 +47,7 @@ class JobdetailFragment : Fragment() {
     private lateinit var tvParkingOption: TextView
     private lateinit var tvAddress: TextView
     private lateinit var tvRatePerMile: TextView
+    private lateinit var tvStatus: TextView
 
     private lateinit var backButton: Button
     private lateinit var applyButton: Button
@@ -58,7 +60,6 @@ class JobdetailFragment : Fragment() {
     private lateinit var jobDetailViewModel: JobDetailViewModel
     private lateinit var jobUpdateViewModel: JobUpdateViewModel
     private lateinit var negotiateAddViewModel: NegotiateAddViewModel
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,6 +104,7 @@ class JobdetailFragment : Fragment() {
         tvParkingOption = binding.dataParkingOption
         tvAddress = binding.dataAddress
         tvRatePerMile = binding.dataRatePerMile
+        tvStatus = binding.dataStatus
 //        backButton = binding.btnBack
         applyButton = binding.btnApply
         negotiateButton = binding.btnNegotiate
@@ -155,6 +157,7 @@ class JobdetailFragment : Fragment() {
                     tvLunchArrangement.text = job?.lunchArrangement
                     tvParkingOption.text = job?.parkingOption
                     tvRatePerMile.text = String.format(Locale.UK, "%.2f", job?.ratePerMile)
+                    tvStatus.text = job?.status
 //                    tvAddress.text =
 //                        job?.branchAddress1 + " \n " + job?.branchAddress2 + " \n " + job?.branchPostalCode
                     tvAddress.text = getString(

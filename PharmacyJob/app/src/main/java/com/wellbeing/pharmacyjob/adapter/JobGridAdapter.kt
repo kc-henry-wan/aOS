@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.wellbeing.pharmacyjob.R
 
 class JobGridAdapter(context: Context, private val dataList: List<String>) :
@@ -31,24 +30,24 @@ class JobGridAdapter(context: Context, private val dataList: List<String>) :
             3 -> imageView?.setImageResource(R.drawable.ic_job_workinghour)
             4 -> imageView?.setImageResource(R.drawable.ic_job_hourlyrate)
             5 -> imageView?.setImageResource(R.drawable.ic_job_totalpaid)
-            6 -> textView?.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    android.R.color.holo_green_dark
-                )
-            ) // First item -> Green
-            7 -> textView?.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    android.R.color.holo_red_dark
-                )
-            ) // Second item -> Red
-            else -> textView?.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    android.R.color.black
-                )
-            ) // Default -> Black
+//            6 -> textView?.setTextColor(
+//                ContextCompat.getColor(
+//                    context,
+//                    android.R.color.holo_green_dark
+//                )
+//            ) // First item -> Green
+//            7 -> textView?.setTextColor(
+//                ContextCompat.getColor(
+//                    context,
+//                    android.R.color.holo_red_dark
+//                )
+//            ) // Second item -> Red
+//            else -> textView?.setTextColor(
+//                ContextCompat.getColor(
+//                    context,
+//                    android.R.color.black
+//                )
+//            ) // Default -> Black
         }
 
         return gridItem!!

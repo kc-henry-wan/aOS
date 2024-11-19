@@ -8,10 +8,8 @@ import retrofit2.Response
 
 class UserDetailRepository(private val apiService: ApiService) {
 
-    suspend fun getUserDetail(
-        id: String
-    ): Response<ApiResponse<UserDetail>> {
+    suspend fun getUserDetail(): Response<ApiResponse<UserDetail>> {
         // Calls the API to perform login and return the response
-        return apiService.getUserDetail(id)
+        return apiService.getUserDetail()
     }
 }
