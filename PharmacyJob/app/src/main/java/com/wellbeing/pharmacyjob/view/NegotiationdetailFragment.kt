@@ -1,5 +1,6 @@
 package com.wellbeing.pharmacyjob.view
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -182,7 +183,7 @@ class NegotiationdetailFragment : Fragment() {
 //        }
         acceptButton.setOnClickListener {
             showConfirmationDialog(
-                negotiationId, getString(R.string.negotiation_status_accept), updatedAt
+                negotiationId, getString(R.string.negotiation_action_accept), updatedAt
             )
         }
 
@@ -190,6 +191,21 @@ class NegotiationdetailFragment : Fragment() {
             acceptButton.visibility = View.VISIBLE
         } else {
             acceptButton.visibility = View.GONE
+        }
+
+        if (status == getString(R.string.negotiation_status_new)) {
+            tvStatus.setTextColor(Color.BLUE)
+            tvStatus.text = "New (pending Approval)"
+        } else if (status == getString(R.string.negotiation_status_admin_accept)) {
+            tvStatus.setTextColor(Color.GREEN)
+        } else if (status == getString(R.string.negotiation_status_reject)) {
+            tvStatus.setTextColor(Color.RED)
+        } else if (status == getString(R.string.negotiation_status_counter)) {
+            tvStatus.setTextColor(Color.BLUE)
+        } else if (status == getString(R.string.negotiation_status_pharmacist_accept)) {
+            tvStatus.setTextColor(Color.GREEN)
+        } else if (status == getString(R.string.negotiation_status_picked)) {
+            tvStatus.setTextColor(Color.RED)
         }
     }
 
@@ -238,7 +254,7 @@ class NegotiationdetailFragment : Fragment() {
         dataPurposedRate.visibility = View.GONE
         dataPurposedTotal.visibility = View.GONE
 
-        if (actionMode == getString(R.string.negotiation_status_accept)) {
+        if (actionMode == getString(R.string.negotiation_action_accept)) {
             tvDialogMessage.text = getString(R.string.negotiation_accept_confirmation)
         }
 
@@ -248,7 +264,7 @@ class NegotiationdetailFragment : Fragment() {
         }
 
         btnConfirm.setOnClickListener {
-            if (actionMode == getString(R.string.negotiation_status_accept)) {
+            if (actionMode == getString(R.string.negotiation_action_accept)) {
                 dialog.dismiss() // Close the dialog
                 negotiateUpdateViewModel.updateNegotiation(
                     id, NegotiateUpdateRequest("8", actionMode, updatedAt)
