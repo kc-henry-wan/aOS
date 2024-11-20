@@ -5,14 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wellbeing.pharmacyjob.api.ApiHelper
 import com.wellbeing.pharmacyjob.api.ApiResult
-import com.wellbeing.pharmacyjob.model.ApiResponse
 import com.wellbeing.pharmacyjob.model.UserDocListResponse
 import com.wellbeing.pharmacyjob.repository.MyDocRepository
 import kotlinx.coroutines.launch
 
 class MyDocViewModel(private val repository: MyDocRepository) : ViewModel() {
 
-    val liveData = MutableLiveData<ApiResult<ApiResponse<UserDocListResponse>>>()
+    val liveData = MutableLiveData<ApiResult<UserDocListResponse>>()
 
     fun getMyDocList() {
         // Launch a coroutine in viewModelScope

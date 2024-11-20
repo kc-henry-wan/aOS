@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class MyjobViewModel(private val repository: MyjobRepository) : ViewModel() {
 
-    val myjobLiveData = MutableLiveData<ApiResult<JobListResponse>>()
+    val liveData = MutableLiveData<ApiResult<JobListResponse>>()
 
     fun getMyJob(status: String) {
 
@@ -40,7 +40,7 @@ class MyjobViewModel(private val repository: MyjobRepository) : ViewModel() {
                     )
                 }
             }
-            myjobLiveData.value = result
+            liveData.value = result
         }
     }
 }

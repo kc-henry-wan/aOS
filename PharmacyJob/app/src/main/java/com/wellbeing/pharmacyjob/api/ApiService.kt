@@ -12,6 +12,7 @@ import com.wellbeing.pharmacyjob.model.NegotiationResponse
 import com.wellbeing.pharmacyjob.model.RegUserRequest
 import com.wellbeing.pharmacyjob.model.UpdateJobRequest
 import com.wellbeing.pharmacyjob.model.UserDetail
+import com.wellbeing.pharmacyjob.model.UserDocListResponse
 import com.wellbeing.pharmacyjob.model.UserUpdateRequest
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -96,18 +97,20 @@ interface ApiService {
         @Body userUpdateRequest: UserUpdateRequest
     ): Response<ApiResponse<String>>
 
-    @POST("/api/v1/mydoc/upload")
+    //    @POST("/api/v1/mydoc/upload")
+    @GET("api/mock/8")
     suspend fun uploadDoc(
         @Query("imageType") imageType: String,
         @Part imageFile: MultipartBody.Part
     ): Response<ApiResponse<String>>
 
 
-    @GET("/api/v1/mydoc")
-    suspend fun getMyDocList(): Response<ApiResponse<String>>
+    //    @GET("/api/v1/mydoc")
+    @GET("api/mock/13")
+    suspend fun getMyDocList(): Response<UserDocListResponse>
 
     @GET("/api/v1/mydoc/download/{id}")
-    suspend fun downloadMyDoc(
+    suspend fun downloadDoc(
         @Path("id") id: String
     ): Response<MultipartBody.Part>
 

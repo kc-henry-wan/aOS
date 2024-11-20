@@ -87,7 +87,7 @@ class MyjobFragment : Fragment() {
         myjobViewModel = ViewModelProvider(this, MyjobViewModelFactory(repository))
             .get(MyjobViewModel::class.java)
 
-        myjobViewModel.myjobLiveData.observe(viewLifecycleOwner, Observer { result ->
+        myjobViewModel.liveData.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is ApiResult.Success -> {
                     Toast.makeText(

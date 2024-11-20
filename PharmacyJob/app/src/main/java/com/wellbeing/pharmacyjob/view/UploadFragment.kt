@@ -83,12 +83,15 @@ class UploadFragment : Fragment() {
         val apiService = RetrofitInstance.api // Your Retrofit API service
         val repository = MyDocRepository(apiService)
 
+        AppLogger.d("UploadFragment", "2")
         myDocViewModel = ViewModelProvider(this, MyDocViewModelFactory(repository))
             .get(MyDocViewModel::class.java)
 
+        AppLogger.d("UploadFragment", "3")
         myDocViewModel.liveData.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is ApiResult.Success -> {
+                    AppLogger.d("UploadFragment", "4")
                     Toast.makeText(
                         requireContext(), getString(R.string.api_get_success),
                         Toast.LENGTH_SHORT
@@ -96,14 +99,16 @@ class UploadFragment : Fragment() {
                     // Switch to Main thread to update UI
                     lifecycleScope.launch {
                         try {
+                            AppLogger.d("UploadFragment", "5")
                             withContext(Dispatchers.Main) {
-                                result.data?.data?.data?.content?.forEach { doc ->
+                                result.data?.data?.content?.forEach { doc ->
 
                                     //TODO:Add logic to handle document downlaod
                                     AppLogger.d("UploadFragment", "doc:" + doc.toString())
                                 }
                             }
                         } catch (e: Exception) {
+                            AppLogger.d("UploadFragment", "6")
                             withContext(Dispatchers.Main) {
                                 apiResultTextView.text = getString(R.string.api_get_fail)
                             }
@@ -112,12 +117,14 @@ class UploadFragment : Fragment() {
                 }
 
                 is ApiResult.Error -> {
+                    AppLogger.d("UploadFragment", "7")
                     // Show error message
                     apiResultTextView.text = getString(R.string.api_get_fail)
                 }
             }
         }
         )
+        myDocViewModel.getMyDocList()
     }
 
     private fun openGalleryForResult(requestCode: Int) {

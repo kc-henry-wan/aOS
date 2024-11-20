@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class UserDoc(
     val imageId: String,
-    val imageType: String,
+    val imageType: String
 ) : Parcelable

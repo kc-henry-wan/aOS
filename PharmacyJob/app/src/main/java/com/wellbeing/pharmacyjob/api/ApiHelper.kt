@@ -13,7 +13,7 @@ object ApiHelper {
         return try {
             AppLogger.d("ApiHelper", "apiCall:" + apiCall)
             val response = apiCall()
-            AppLogger.d("ApiHelper", "safeApiCall:" + response)
+            AppLogger.d("ApiHelper", "safeApiCall-response:" + response)
             if (response.isSuccessful) {
                 response.body()?.let {
                     ApiResult.Success(it)
