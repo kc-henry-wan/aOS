@@ -8,10 +8,10 @@ import retrofit2.Response
 
 class UploadImageRepository(private val apiService: ApiService) {
 
-    suspend fun uploadImage(
+    suspend fun uploadDoc(
         imageType: String,
         imageFile: MultipartBody.Part
     ): Response<ApiResponse<String>> {
-        return apiService.uploadImage(imageType, imageFile)
+        return apiService.uploadDoc(imageType, imageFile)
     }
 }

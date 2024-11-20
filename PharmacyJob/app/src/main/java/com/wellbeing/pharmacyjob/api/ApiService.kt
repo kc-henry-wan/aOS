@@ -86,32 +86,30 @@ interface ApiService {
         @Body negotiateUpdateRequest: NegotiateUpdateRequest
     ): Response<ApiResponse<String>>
 
-    //@GET("/api/v1/pharmacist/")
+    //@GET("/api/v1/myprofile/")
     @GET("api/mock/12")
     suspend fun getUserDetail(): Response<ApiResponse<UserDetail>>
 
-    //@PUT("/api/v1/pharmacist/")
+    //@PUT("/api/v1/myprofile/")
     @POST("api/mock/")
     suspend fun updateUserDetail(
         @Body userUpdateRequest: UserUpdateRequest
     ): Response<ApiResponse<String>>
 
-    @POST("/api/v1/image/upload")
-    suspend fun uploadImage(
+    @POST("/api/v1/mydoc/upload")
+    suspend fun uploadDoc(
         @Query("imageType") imageType: String,
         @Part imageFile: MultipartBody.Part
     ): Response<ApiResponse<String>>
 
 
-//     @GET("/api/v1/image/pharmacist/{id}")
-//     suspend fun getUserImageList(
-//         @Path("id") id: String
-//     ):Response<imageListResponse>
+    @GET("/api/v1/mydoc")
+    suspend fun getMyDocList(): Response<ApiResponse<String>>
 
-//     @GET("/api/v1/image/download/{id}")
-//     suspend fun downloadImage(
-//         @Path("id") id: String
-//     ):Response<image>
+    @GET("/api/v1/mydoc/download/{id}")
+    suspend fun downloadMyDoc(
+        @Path("id") id: String
+    ): Response<MultipartBody.Part>
 
 
     //

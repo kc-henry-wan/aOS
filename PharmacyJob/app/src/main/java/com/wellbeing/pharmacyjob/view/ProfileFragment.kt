@@ -305,7 +305,7 @@ class ProfileFragment : Fragment() {
             val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             //Call API
-            uploadImageViewModel.uploadImage("Document", body)
+            uploadImageViewModel.uploadDoc("Document", body)
         }
     }
 

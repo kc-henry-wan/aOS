@@ -14,11 +14,11 @@ class UploadImageViewModel(private val repository: UploadImageRepository) : View
 
     val liveData = MutableLiveData<ApiResult<ApiResponse<String>>>()
 
-    fun uploadImage(imageType: String, imageFile: MultipartBody.Part) {
+    fun uploadDoc(imageType: String, imageFile: MultipartBody.Part) {
         // Launch a coroutine in viewModelScope
         viewModelScope.launch {
             val result = ApiHelper.safeApiCall {
-                repository.uploadImage(imageType, imageFile)
+                repository.uploadDoc(imageType, imageFile)
             }
 
             AppLogger.d(
