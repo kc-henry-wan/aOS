@@ -6,7 +6,7 @@ import okhttp3.MultipartBody
 import retrofit2.Response
 
 
-class UploadImageRepository(private val apiService: ApiService) {
+class UploadDocRepository(private val apiService: ApiService) {
 
     suspend fun uploadDoc(
         imageType: String,

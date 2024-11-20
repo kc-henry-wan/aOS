@@ -29,15 +29,15 @@ import com.wellbeing.pharmacyjob.R
 import com.wellbeing.pharmacyjob.api.ApiResult
 import com.wellbeing.pharmacyjob.api.RetrofitInstance
 import com.wellbeing.pharmacyjob.databinding.FragmentProfileBinding
-import com.wellbeing.pharmacyjob.factory.UploadImageViewModelFactory
+import com.wellbeing.pharmacyjob.factory.UploadDocViewModelFactory
 import com.wellbeing.pharmacyjob.factory.UserDetailViewModelFactory
 import com.wellbeing.pharmacyjob.factory.UserUpdateViewModelFactory
 import com.wellbeing.pharmacyjob.model.UserUpdateRequest
-import com.wellbeing.pharmacyjob.repository.UploadImageRepository
+import com.wellbeing.pharmacyjob.repository.UploadDocRepository
 import com.wellbeing.pharmacyjob.repository.UserDetailRepository
 import com.wellbeing.pharmacyjob.repository.UserUpdateRepository
 import com.wellbeing.pharmacyjob.utils.UserDataValidator.validateUserRequest
-import com.wellbeing.pharmacyjob.viewmodel.UploadImageViewModel
+import com.wellbeing.pharmacyjob.viewmodel.UploadDocViewModel
 import com.wellbeing.pharmacyjob.viewmodel.UserDetailViewModel
 import com.wellbeing.pharmacyjob.viewmodel.UserUpdateViewModel
 import okhttp3.MediaType
@@ -68,7 +68,7 @@ class ProfileFragment : Fragment() {
     private lateinit var apiResultTextView: TextView
     private lateinit var userDetailViewModel: UserDetailViewModel
     private lateinit var userUpdateViewModel: UserUpdateViewModel
-    private lateinit var uploadImageViewModel: UploadImageViewModel
+    private lateinit var uploadDocViewModel: UploadDocViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -111,7 +111,7 @@ class ProfileFragment : Fragment() {
         val apiService = RetrofitInstance.api // Your Retrofit API service
         val repository = UserDetailRepository(apiService)
         val repositoryUpdate = UserUpdateRepository(apiService)
-        val repositoryUpload = UploadImageRepository(apiService)
+        val repositoryUpload = UploadDocRepository(apiService)
         var updatedAt: String = ""
 
         userDetailViewModel = ViewModelProvider(this, UserDetailViewModelFactory(repository))
@@ -158,12 +158,12 @@ class ProfileFragment : Fragment() {
         })
 
 
-        uploadImageViewModel =
-            ViewModelProvider(this, UploadImageViewModelFactory(repositoryUpload))
-                .get(UploadImageViewModel::class.java)
+        uploadDocViewModel =
+            ViewModelProvider(this, UploadDocViewModelFactory(repositoryUpload))
+                .get(UploadDocViewModel::class.java)
 
         // Observe the ViewModel LiveData for API response status
-        uploadImageViewModel.liveData.observe(viewLifecycleOwner, Observer { result ->
+        uploadDocViewModel.liveData.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is ApiResult.Success -> {
                     apiResultTextView.text = getString(R.string.api_update_success)
@@ -305,7 +305,7 @@ class ProfileFragment : Fragment() {
             val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             //Call API
-            uploadImageViewModel.uploadDoc("Document", body)
+            uploadDocViewModel.uploadDoc("Document", body)
         }
     }
 

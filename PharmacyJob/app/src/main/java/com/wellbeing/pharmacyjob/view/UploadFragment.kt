@@ -9,9 +9,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.wellbeing.pharmacyjob.R
+import com.wellbeing.pharmacyjob.api.ApiResult
+import com.wellbeing.pharmacyjob.api.RetrofitInstance
 import com.wellbeing.pharmacyjob.databinding.FragmentUploadBinding
+import com.wellbeing.pharmacyjob.factory.MyDocViewModelFactory
+import com.wellbeing.pharmacyjob.repository.MyDocRepository
+import com.wellbeing.pharmacyjob.viewmodel.MyDocViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class UploadFragment : Fragment() {
 
@@ -21,6 +35,8 @@ class UploadFragment : Fragment() {
     private lateinit var idImageView: ImageView
     private lateinit var certImageView: ImageView
     private lateinit var licenseImageView: ImageView
+    private lateinit var myDocViewModel: MyDocViewModel
+    private lateinit var apiResultTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +66,7 @@ class UploadFragment : Fragment() {
         idImageView = binding.idImageView
         certImageView = binding.certImageView
         licenseImageView = binding.licenseImageView
+        apiResultTextView = binding.apiResultTextView
 
         binding.uploadIdButton.setOnClickListener {
             openGalleryForResult(REQUEST_ID)
@@ -63,6 +80,44 @@ class UploadFragment : Fragment() {
             openGalleryForResult(REQUEST_LICENSE)
         }
 
+        val apiService = RetrofitInstance.api // Your Retrofit API service
+        val repository = MyDocRepository(apiService)
+
+        myDocViewModel = ViewModelProvider(this, MyDocViewModelFactory(repository))
+            .get(MyDocViewModel::class.java)
+
+        myDocViewModel.liveData.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is ApiResult.Success -> {
+                    Toast.makeText(
+                        requireContext(), getString(R.string.api_get_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // Switch to Main thread to update UI
+                    lifecycleScope.launch {
+                        try {
+                            withContext(Dispatchers.Main) {
+                                result.data?.data?.data?.content?.forEach { doc ->
+
+                                    //TODO:Add logic to handle document downlaod
+                                    AppLogger.d("UploadFragment", "doc:" + doc.toString())
+                                }
+                            }
+                        } catch (e: Exception) {
+                            withContext(Dispatchers.Main) {
+                                apiResultTextView.text = getString(R.string.api_get_fail)
+                            }
+                        }
+                    }
+                }
+
+                is ApiResult.Error -> {
+                    // Show error message
+                    apiResultTextView.text = getString(R.string.api_get_fail)
+                }
+            }
+        }
+        )
     }
 
     private fun openGalleryForResult(requestCode: Int) {
