@@ -8,6 +8,7 @@ import java.util.Properties
 object ConfigReader {
     private const val CONFIG_FILE = "config.properties"
     private const val KEY_BASE_URL = "BASE_URL"
+    private const val KEY_IMAGE_URL = "IMAGE_URL"
     private var properties: Properties? = null
 
     fun loadConfig(context: Context) {
@@ -22,5 +23,9 @@ object ConfigReader {
 
     fun getBaseUrl(): String? {
         return properties?.getProperty(KEY_BASE_URL)
+    }
+
+    fun getImageUrl(): String? {
+        return properties?.getProperty(KEY_IMAGE_URL)
     }
 }

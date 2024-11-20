@@ -40,7 +40,7 @@ import com.wellbeing.pharmacyjob.utils.UserDataValidator.validateUserRequest
 import com.wellbeing.pharmacyjob.viewmodel.UploadDocViewModel
 import com.wellbeing.pharmacyjob.viewmodel.UserDetailViewModel
 import com.wellbeing.pharmacyjob.viewmodel.UserUpdateViewModel
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
@@ -301,7 +301,7 @@ class ProfileFragment : Fragment() {
 
         if (file != null) {
             // Create RequestBody and MultipartBody.Part
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaType(), file)
             val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
             //Call API

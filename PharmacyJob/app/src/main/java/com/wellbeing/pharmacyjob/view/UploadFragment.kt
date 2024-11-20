@@ -11,16 +11,22 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.wellbeing.pharmacyjob.R
+import com.wellbeing.pharmacyjob.adapter.ImageAdapter
 import com.wellbeing.pharmacyjob.api.ApiResult
 import com.wellbeing.pharmacyjob.api.RetrofitInstance
 import com.wellbeing.pharmacyjob.databinding.FragmentUploadBinding
 import com.wellbeing.pharmacyjob.factory.MyDocViewModelFactory
+import com.wellbeing.pharmacyjob.model.UserDoc
 import com.wellbeing.pharmacyjob.repository.MyDocRepository
 import com.wellbeing.pharmacyjob.viewmodel.MyDocViewModel
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +43,10 @@ class UploadFragment : Fragment() {
     private lateinit var licenseImageView: ImageView
     private lateinit var myDocViewModel: MyDocViewModel
     private lateinit var apiResultTextView: TextView
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var imageAdapter: ImageAdapter
+    private val myList: MutableList<UserDoc> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,6 +78,20 @@ class UploadFragment : Fragment() {
         licenseImageView = binding.licenseImageView
         apiResultTextView = binding.apiResultTextView
 
+        recyclerView = binding.mylistRecycler
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        imageAdapter = ImageAdapter(emptyList()) { item ->
+            showFullScreenImageDialog(item.imageId)
+            // Navigate to DetailFragment with item data
+//            val jobdetailFragment = JobdetailFragment.newInstance(item)
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.nav_host_fragment_activity_main, jobdetailFragment)
+//                .addToBackStack(null)
+//                .commit()
+        }
+        recyclerView.adapter = imageAdapter
+
         binding.uploadIdButton.setOnClickListener {
             openGalleryForResult(REQUEST_ID)
         }
@@ -83,15 +107,12 @@ class UploadFragment : Fragment() {
         val apiService = RetrofitInstance.api // Your Retrofit API service
         val repository = MyDocRepository(apiService)
 
-        AppLogger.d("UploadFragment", "2")
         myDocViewModel = ViewModelProvider(this, MyDocViewModelFactory(repository))
             .get(MyDocViewModel::class.java)
 
-        AppLogger.d("UploadFragment", "3")
         myDocViewModel.liveData.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is ApiResult.Success -> {
-                    AppLogger.d("UploadFragment", "4")
                     Toast.makeText(
                         requireContext(), getString(R.string.api_get_success),
                         Toast.LENGTH_SHORT
@@ -99,16 +120,20 @@ class UploadFragment : Fragment() {
                     // Switch to Main thread to update UI
                     lifecycleScope.launch {
                         try {
-                            AppLogger.d("UploadFragment", "5")
                             withContext(Dispatchers.Main) {
+                                myList.clear()
                                 result.data?.data?.content?.forEach { doc ->
-
-                                    //TODO:Add logic to handle document downlaod
+                                    myList.add(doc)
                                     AppLogger.d("UploadFragment", "doc:" + doc.toString())
                                 }
+                                imageAdapter.updateData(myList)
+                            }
+                            if (myList.isEmpty()) {
+                                apiResultTextView.text = "Your list is empty"
+                            } else {
+                                apiResultTextView.setHeight(0)
                             }
                         } catch (e: Exception) {
-                            AppLogger.d("UploadFragment", "6")
                             withContext(Dispatchers.Main) {
                                 apiResultTextView.text = getString(R.string.api_get_fail)
                             }
@@ -117,7 +142,6 @@ class UploadFragment : Fragment() {
                 }
 
                 is ApiResult.Error -> {
-                    AppLogger.d("UploadFragment", "7")
                     // Show error message
                     apiResultTextView.text = getString(R.string.api_get_fail)
                 }
@@ -153,5 +177,46 @@ class UploadFragment : Fragment() {
     private fun onBackButton() {
 //            findNavController().navigateUp()
         requireActivity().supportFragmentManager.popBackStack()
+    }
+
+    private fun showFullScreenImageDialog(imageId: String) {
+
+        // Inflate the custom dialog layout
+        val dialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_fullscreen_image, null)
+
+        // Create the dialog
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        var ivFullImg = dialogView.findViewById<ImageView>(R.id.imageViewFullScreen)
+        var ivClose = dialogView.findViewById<ImageView>(R.id.close)
+
+//        ConfigReader.loadConfig(requireContext()) // Load the configuration
+//        val imageUrl =
+//            ConfigReader.getImageUrl() ?: "http://192.168.68.123:73/api/v1/mydoc/download/"
+//        val imageUrl = "http://192.168.68.123:73/api/v1/mydoc/download/"+imageId
+        var imageUrl =
+            "https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~TA9FQG4V38ZN/CERTIFICATE_LANDING_PAGE~TA9FQG4V38ZN.jpeg"
+
+        ivFullImg.load(imageUrl) {
+            size(coil.size.Size.ORIGINAL) // Load the actual size of the image
+            placeholder(R.drawable.ic_upload_placeholder) // Shown while loading
+            error(R.drawable.ic_alpha_x_circle)       // Shown if loading fails
+        }
+
+        // Handle button clicks
+        ivFullImg.setOnClickListener {
+            dialog.dismiss() // Close the dialog
+        }
+
+        ivClose.setOnClickListener {
+            dialog.dismiss() // Close the dialog
+        }
+
+        // Show the dialog
+        dialog.show()
     }
 }
