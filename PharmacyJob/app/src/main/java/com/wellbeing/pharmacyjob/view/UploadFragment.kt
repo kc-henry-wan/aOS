@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -83,12 +84,6 @@ class UploadFragment : Fragment() {
 
         imageAdapter = ImageAdapter(emptyList()) { item ->
             showFullScreenImageDialog(item.imageId)
-            // Navigate to DetailFragment with item data
-//            val jobdetailFragment = JobdetailFragment.newInstance(item)
-//            requireActivity().supportFragmentManager.beginTransaction()
-//                .replace(R.id.nav_host_fragment_activity_main, jobdetailFragment)
-//                .addToBackStack(null)
-//                .commit()
         }
         recyclerView.adapter = imageAdapter
 
@@ -199,8 +194,8 @@ class UploadFragment : Fragment() {
 //            ConfigReader.getImageUrl() ?: "http://192.168.68.123:73/api/v1/mydoc/download/"
 //        val imageUrl = "http://192.168.68.123:73/api/v1/mydoc/download/"+imageId
         var imageUrl =
-            "https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~TA9FQG4V38ZN/CERTIFICATE_LANDING_PAGE~TA9FQG4V38ZN.jpeg"
-
+            Environment.getExternalStorageDirectory().path + "/Download/IMG_1603.jpg"
+        AppLogger.d("UploadFragment", "showFullScreenImageDialog - imageUrl=" + imageUrl)
         ivFullImg.load(imageUrl) {
             size(coil.size.Size.ORIGINAL) // Load the actual size of the image
             placeholder(R.drawable.ic_upload_placeholder) // Shown while loading

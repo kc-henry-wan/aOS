@@ -24,38 +24,39 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Check session status
-        AppLogger.d("MainActivity", "Check session status")
-        if (!SessionManager.isLoggedIn(this)) {
-            AppLogger.d("MainActivity", "SessionManager.isLoggedIn = false")
-            navigateToLogin()
-            return
-        }
+        if (savedInstanceState == null) {
+            // Check session status
+            AppLogger.d("MainActivity", "Check session status")
+            if (!SessionManager.isLoggedIn(this)) {
+                AppLogger.d("MainActivity", "SessionManager.isLoggedIn = false")
+                navigateToLogin()
+                return
+            }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+            binding = ActivityMainBinding.inflate(layoutInflater)
+            setContentView(binding.root)
 
 //        supportActionBar?.hide()
-        setSupportActionBar(binding.actiontoolbar)
+            setSupportActionBar(binding.actiontoolbar)
 
-        val bottomNavigationView: BottomNavigationView = binding.navView
+            val bottomNavigationView: BottomNavigationView = binding.navView
 //        loadFragment(AvailablejobFragment())
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            var selectedFragment: Fragment? = null
-            when (item.itemId) {
-                R.id.navigation_availablejob -> selectedFragment = AvailablejobFragment()
-                R.id.navigation_myfavorite -> selectedFragment = MyfavoriteFragment()
-                R.id.navigation_myjob -> selectedFragment = MyjobFragment()
-                R.id.navigation_negotiation -> selectedFragment = NegotiationFragment()
-                R.id.navigation_profile -> selectedFragment = ProfileFragment()
+            bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+                var selectedFragment: Fragment? = null
+                when (item.itemId) {
+                    R.id.navigation_availablejob -> selectedFragment = AvailablejobFragment()
+                    R.id.navigation_myfavorite -> selectedFragment = MyfavoriteFragment()
+                    R.id.navigation_myjob -> selectedFragment = MyjobFragment()
+                    R.id.navigation_negotiation -> selectedFragment = NegotiationFragment()
+                    R.id.navigation_profile -> selectedFragment = ProfileFragment()
+                }
+                if (selectedFragment != null) {
+                    loadFragment(selectedFragment)
+                }
+                true
             }
-            if (selectedFragment != null) {
-                loadFragment(selectedFragment)
-            }
-            true
         }
     }
-
 
     private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
@@ -65,7 +66,6 @@ class MainActivity : AppCompatActivity() {
 
         showBackButton(false)
     }
-
 
     private fun navigateToLogin() {
         // Clear fragment back stack
@@ -116,6 +116,4 @@ class MainActivity : AppCompatActivity() {
     fun showBackButton(show: Boolean) {
         supportActionBar?.setDisplayHomeAsUpEnabled(show)
     }
-
-
 }

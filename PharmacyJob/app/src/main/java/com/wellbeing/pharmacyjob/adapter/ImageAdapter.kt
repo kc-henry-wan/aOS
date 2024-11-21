@@ -1,5 +1,6 @@
 package com.wellbeing.pharmacyjob.adapter
 
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +36,9 @@ class ImageAdapter(
 //        val imageUrl =
 //            ConfigReader.loadConfig(holder.itemView.context).getImageUrl() ?: "http://192.168.68.123:73/api/v1/mydoc/download/"
 //        val imageUrl = "http://192.168.68.123:73/api/v1/mydoc/download/"+item.imageId
-        val imageUrl =
-            "https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~TA9FQG4V38ZN/CERTIFICATE_LANDING_PAGE~TA9FQG4V38ZN.jpeg"
+        var imageUrl =
+            Environment.getExternalStorageDirectory().path + "/Download/IMG_1603.jpg"
+        AppLogger.d("ImageAdapter", "onBindViewHolder - imageUrl=" + imageUrl)
 
         holder.imageThumbnail.load(imageUrl) {
             size(200, 200)

@@ -198,13 +198,11 @@ class NegotiationdetailFragment : Fragment() {
             tvStatus.text = "New (pending Approval)"
         } else if (status == getString(R.string.negotiation_status_admin_accept)) {
             tvStatus.setTextColor(Color.GREEN)
-        } else if (status == getString(R.string.negotiation_status_reject)) {
-            tvStatus.setTextColor(Color.RED)
         } else if (status == getString(R.string.negotiation_status_counter)) {
             tvStatus.setTextColor(Color.BLUE)
         } else if (status == getString(R.string.negotiation_status_pharmacist_accept)) {
             tvStatus.setTextColor(Color.GREEN)
-        } else if (status == getString(R.string.negotiation_status_picked)) {
+        } else {
             tvStatus.setTextColor(Color.RED)
         }
     }
