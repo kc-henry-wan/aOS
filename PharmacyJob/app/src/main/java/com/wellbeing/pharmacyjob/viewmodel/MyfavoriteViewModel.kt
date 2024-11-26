@@ -1,6 +1,5 @@
 package com.wellbeing.pharmacyjob.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +12,7 @@ import kotlinx.coroutines.launch
 class MyfavoriteViewModel(private val repository: MyfavoriteRepository) : ViewModel() {
     val myfavoriteLiveData = MutableLiveData<ApiResult<JobListResponse>>()
 
-    fun getMyFavoriteJob(favoriteIds: String, context: Context) {
+    fun getMyFavoriteJob(favoriteIds: String) {
         // Launch a coroutine in viewModelScope
         viewModelScope.launch {
             val result = ApiHelper.safeApiCall {

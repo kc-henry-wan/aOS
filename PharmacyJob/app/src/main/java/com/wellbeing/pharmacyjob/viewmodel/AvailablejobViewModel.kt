@@ -1,6 +1,5 @@
 package com.wellbeing.pharmacyjob.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,8 +15,7 @@ class AvailablejobViewModel(private val repository: AvailablejobRepository) : Vi
     fun getAvailablejob(
         startDate: String,
         endDate: String,
-        apiDataSortBy: String,
-        context: Context
+        apiDataSortBy: String
     ) {
         // Launch a coroutine in viewModelScope
         viewModelScope.launch {

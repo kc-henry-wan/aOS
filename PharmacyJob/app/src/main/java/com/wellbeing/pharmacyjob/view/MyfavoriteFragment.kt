@@ -156,7 +156,7 @@ class MyfavoriteFragment : Fragment() {
             "MyfavoriteFragment",
             "fetchDataFromApi - Call myfavoriteViewModel.getMyFavoriteJob: favoriteIds:" + strfavoriteIds
         )
-        myfavoriteViewModel.getMyFavoriteJob(strfavoriteIds, requireContext())
+        myfavoriteViewModel.getMyFavoriteJob(strfavoriteIds)
     }
 
 }

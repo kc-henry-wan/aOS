@@ -237,7 +237,7 @@ class AvailablejobFragment : Fragment() {
             "AvailablejobFragment",
             "fetchDataFromApi - Call availablejobViewModel.getAvailableJob: startDate" + startDate + ";endDate" + endDate + ";apiDataSortBy" + apiDataSortBy
         )
-        availablejobViewModel.getAvailablejob(startDate, endDate, apiDataSortBy, requireContext())
+        availablejobViewModel.getAvailablejob(startDate, endDate, apiDataSortBy)
     }
 
 //    private fun fetchDataFromApi2(selectedKey: String) {

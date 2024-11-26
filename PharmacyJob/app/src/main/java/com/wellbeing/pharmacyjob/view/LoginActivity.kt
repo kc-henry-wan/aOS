@@ -1,6 +1,7 @@
 package com.wellbeing.pharmacyjob.view
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.wellbeing.pharmacyjob.MainActivity
 import com.wellbeing.pharmacyjob.api.ApiResult
 import com.wellbeing.pharmacyjob.api.RetrofitInstance
+import com.wellbeing.pharmacyjob.api.SessionManager
 import com.wellbeing.pharmacyjob.databinding.ActivityLoginBinding
 import com.wellbeing.pharmacyjob.factory.LoginViewModelFactory
 import com.wellbeing.pharmacyjob.repository.LoginRepository
@@ -57,13 +59,28 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.loginLiveData.observe(this, Observer { result ->
             when (result) {
                 is ApiResult.Success -> {
-                    // Handle successful login, navigate to the next screen
-                    logonResultTextView.text = "Login Successful!"
-                    navigateToHomeScreen()
+                    if (result.data?.apiStatus == "Success") {
+                        // Handle successful login, navigate to the next screen
+                        logonResultTextView.text = "Login Successful!"
+                        SessionManager.createSession(
+                            this,
+                            result.data?.data?.sessionKey.toString(),
+                            result.data?.data?.userId.toString(),
+                            result.data?.data?.userLat.toString(),
+                            result.data?.data?.userLng.toString()
+                        )
+                        navigateToHomeScreen()
+                    } else {
+                        SessionManager.logout(this)
+                        logonResultTextView.setTextColor(Color.RED)
+                        logonResultTextView.text = "Login failed: " + result.data?.errorMessage
+                    }
                 }
 
                 is ApiResult.Error -> {
                     // Show error message
+                    SessionManager.logout(this)
+                    logonResultTextView.setTextColor(Color.RED)
                     logonResultTextView.text = "Login failed: " + result.message
                 }
             }
@@ -71,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
             if (loginValidation(username, password)) {
-                loginViewModel.login(username, password, this)
+                loginViewModel.login(username, password)
             } else {
                 Toast.makeText(this, "Input error", Toast.LENGTH_SHORT).show()
             }
