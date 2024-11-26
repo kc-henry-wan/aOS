@@ -6,23 +6,60 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.widget.Toast
 import com.wellbeing.pharmacyjob.view.LoginActivity
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Response
 
 object ApiHelper {
     suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): ApiResult<T> {
         return try {
-            AppLogger.d("ApiHelper", "apiCall:" + apiCall)
+            AppLogger.d("ApiHelper", "apiCall: $apiCall")
             val response = apiCall()
-            AppLogger.d("ApiHelper", "safeApiCall-response:" + response)
+            AppLogger.d("ApiHelper", "safeApiCall-response: " + response)
+
             if (response.isSuccessful) {
                 response.body()?.let {
                     ApiResult.Success(it)
-                } ?: ApiResult.Error("Empty Response >>> " + response.toString())
+                } ?: ApiResult.Error(
+                    httpStatusCode = null,
+                    errorCode = null,
+                    errorMessage = "Empty Response",
+                    rawResponse = response.toString()
+                )
             } else {
-                ApiResult.Error(response.message() + " >>> " + response.toString())
+                // Parse error body for backend-specific error code and message
+                val errorBody = response.errorBody()?.string()
+                val (errorCode, errorMessage) = parseBackendError(errorBody)
+
+                ApiResult.Error(
+                    httpStatusCode = response.code(),
+                    errorCode = errorCode,
+                    errorMessage = errorMessage ?: response.message(),
+                    rawResponse = response.toString()
+                )
             }
         } catch (e: Exception) {
-            ApiResult.Error(e.localizedMessage ?: "An error occurred")
+            ApiResult.Error(
+                httpStatusCode = null,
+                errorCode = null,
+                errorMessage = e.localizedMessage ?: "An error occurred"
+            )
+        }
+    }
+
+    // Function to parse backend-specific error code and message
+    private fun parseBackendError(errorBody: String?): Pair<String?, String?> {
+        return try {
+            errorBody?.let {
+                val jsonObject = JSONObject(it)
+                val errorCode =
+                    jsonObject.optString("errorCode", null) // Backend-specific error code
+                val errorMessage =
+                    jsonObject.optString("errorMessage", null)       // Backend error message
+                Pair(errorCode, errorMessage)
+            } ?: Pair(null, null)
+        } catch (e: JSONException) {
+            Pair(null, null) // Return null if parsing fails
         }
     }
 

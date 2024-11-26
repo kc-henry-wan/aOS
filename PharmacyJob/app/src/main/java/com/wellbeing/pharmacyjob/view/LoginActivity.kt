@@ -59,29 +59,22 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.loginLiveData.observe(this, Observer { result ->
             when (result) {
                 is ApiResult.Success -> {
-                    if (result.data?.apiStatus == "Success") {
-                        // Handle successful login, navigate to the next screen
-                        logonResultTextView.text = "Login Successful!"
-                        SessionManager.createSession(
-                            this,
-                            result.data?.data?.sessionKey.toString(),
-                            result.data?.data?.userId.toString(),
-                            result.data?.data?.userLat.toString(),
-                            result.data?.data?.userLng.toString()
-                        )
-                        navigateToHomeScreen()
-                    } else {
-                        SessionManager.logout(this)
-                        logonResultTextView.setTextColor(Color.RED)
-                        logonResultTextView.text = "Login failed: " + result.data?.errorMessage
-                    }
+                    // Handle successful login, navigate to the next screen
+                    logonResultTextView.text = "Login Successful!"
+                    SessionManager.createSession(
+                        this,
+                        result.data?.data?.sessionKey.toString(),
+                        result.data?.data?.userId.toString()
+                    )
+                    navigateToHomeScreen()
                 }
 
                 is ApiResult.Error -> {
                     // Show error message
                     SessionManager.logout(this)
                     logonResultTextView.setTextColor(Color.RED)
-                    logonResultTextView.text = "Login failed: " + result.message
+                    logonResultTextView.text =
+                        "Login failed: " + result.errorMessage + " (Error code:" + result.errorCode + ")"
                 }
             }
         })

@@ -133,7 +133,7 @@ class AvailablejobFragment : Fragment() {
                 is ApiResult.Error -> {
                     // Show error message
                     Toast.makeText(
-                        requireContext(), getString(R.string.api_get_fail) + result.message,
+                        requireContext(), getString(R.string.api_get_fail) + result.errorMessage,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
