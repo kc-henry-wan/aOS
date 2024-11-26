@@ -7,7 +7,6 @@ import com.wellbeing.pharmacyjob.model.LoginRequest
 import com.wellbeing.pharmacyjob.model.LoginResponse
 import com.wellbeing.pharmacyjob.model.NegotiateAddRequest
 import com.wellbeing.pharmacyjob.model.NegotiateUpdateRequest
-import com.wellbeing.pharmacyjob.model.NegotiationList
 import com.wellbeing.pharmacyjob.model.NegotiationResponse
 import com.wellbeing.pharmacyjob.model.RegUserRequest
 import com.wellbeing.pharmacyjob.model.UpdateJobRequest
@@ -30,8 +29,12 @@ interface ApiService {
     @POST("api/mock/")
     suspend fun registerNewUser(@Body regUserRequest: RegUserRequest): Response<ApiResponse<String>>
 
-    @POST("/api/auth/v1/request-password-reset")
-    suspend fun requestPwReset(@Query("email") email: String): Response<ApiResponse<String>>
+    //@POST("/api/auth/v1/request-password-reset")
+    @GET("api/mock/8")
+    suspend fun requestPwReset(
+//        @Body email: String
+        @Query("email") email: String
+    ): Response<ApiResponse<String>>
 
     //@POST("/api/auth/v1/login")
     @POST("api/mock/")
@@ -45,11 +48,11 @@ interface ApiService {
         @Query("orderBy") orderBy: String
     ): Response<JobListResponse>
 
-    // @POST("/api/v1/job")
+    // @GET("/api/v1/job")
     @GET("api/mock/2")
     suspend fun getMyFavoriteJob(@Query("jobIDs") favoriteIds: String): Response<JobListResponse>
 
-    // @POST("/api/v1/myjob")
+    // @GET("/api/v1/myjob")
     @GET("api/mock/2")
     suspend fun getMyJob(@Query("status") status: String): Response<JobListResponse>
 
@@ -77,9 +80,6 @@ interface ApiService {
     //    @GET("/api/v1/negotiation")
     @GET("api/mock/3")
     suspend fun getNegotiation(): Response<NegotiationResponse>
-
-    @GET("/api/v1/negotiation/{id}")
-    suspend fun getNegotiation(@Path("id") id: String): Response<ApiResponse<List<NegotiationList>>>
 
     @PUT("/api/v1/negotiation/{id}")
     suspend fun updateNegotiation(

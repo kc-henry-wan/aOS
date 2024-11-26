@@ -5,6 +5,18 @@ import com.wellbeing.pharmacyjob.model.UserUpdateRequest
 
 object UserDataValidator {
 
+    fun validateEmail(txtEmail: String): List<String> {
+        val errors = mutableListOf<String>()
+
+        // Validate email
+        if (txtEmail.isBlank() || !android.util.Patterns.EMAIL_ADDRESS.matcher(txtEmail)
+                .matches()
+        ) {
+            errors.add("Invalid email address.")
+        }
+        return errors
+    }
+
     fun validateRegUserRequest(request: RegUserRequest): List<String> {
         val errors = mutableListOf<String>()
 

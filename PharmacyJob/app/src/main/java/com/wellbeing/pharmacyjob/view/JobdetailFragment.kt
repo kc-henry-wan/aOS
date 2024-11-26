@@ -272,7 +272,7 @@ class JobdetailFragment : Fragment() {
     private fun showConfirmationDialog(
         id: String,
         actionMode: String,
-        updatedAt: String,
+        jobUpdatedAt: String,
         totalWorkHour: Double
     ) {
 
@@ -292,21 +292,31 @@ class JobdetailFragment : Fragment() {
         val tvDialogMessage = dialogView.findViewById<TextView>(R.id.tvDialogMessage)
         val dataPurposedRate = dialogView.findViewById<EditText>(R.id.dataPurposedRate)
         val dataPurposedTotal = dialogView.findViewById<TextView>(R.id.dataPurposedTotal)
+        val tvReason = dialogView.findViewById<TextView>(R.id.tvReason)
+        val dataReason = dialogView.findViewById<TextView>(R.id.dataReason)
         var purposedTotal: Double = 0.0
+
 
         // Set custom message or title dynamically (optional)
         if (actionMode == getString(R.string.job_status_apply)) {
             tvDialogMessage.text = getString(R.string.job_apply_confirmation)
             dataPurposedRate.visibility = View.GONE
             dataPurposedTotal.visibility = View.GONE
+            tvReason.visibility = View.GONE
+            dataReason.visibility = View.GONE
         } else if (actionMode == getString(R.string.job_status_withdraw)) {
             tvDialogMessage.text = getString(R.string.job_withdraw_confirmation)
             dataPurposedRate.visibility = View.GONE
             dataPurposedTotal.visibility = View.GONE
+            tvReason.visibility = View.GONE
+            dataReason.visibility = View.GONE
         } else if (actionMode == getString(R.string.negotiate_status_new)) {
             tvDialogMessage.text = getString(R.string.negotiate_new_confirmation)
             dataPurposedRate.visibility = View.VISIBLE
             dataPurposedTotal.visibility = View.VISIBLE
+            tvReason.text = getString(R.string.negotiate_new_reason)
+            tvReason.visibility = View.VISIBLE
+            dataReason.visibility = View.VISIBLE
         }
 
         // Handle button clicks
@@ -318,20 +328,21 @@ class JobdetailFragment : Fragment() {
             if (actionMode == getString(R.string.job_status_apply)) {
                 dialog.dismiss() // Close the dialog
                 jobUpdateViewModel.updateJobStatus(
-                    id, UpdateJobRequest("8", actionMode, updatedAt)
+                    id, UpdateJobRequest("8", actionMode, jobUpdatedAt)
                 )
             } else if (actionMode == getString(R.string.job_status_withdraw)) {
                 dialog.dismiss() // Close the dialog
                 jobUpdateViewModel.updateJobStatus(
-                    id, UpdateJobRequest("8", actionMode, updatedAt)
+                    id, UpdateJobRequest("8", actionMode, jobUpdatedAt)
                 )
             } else if (actionMode == getString(R.string.negotiate_status_new)) {
                 if (purposedTotal > 0) {
                     dialog.dismiss() // Close the dialog
                     negotiateAddViewModel.addNegotiation(
                         NegotiateAddRequest(
-                            "8", actionMode, dataPurposedRate.text.toString(),
-                            purposedTotal.toString()
+                            "8", actionMode, id, dataReason.text.toString(),
+                            dataPurposedRate.text.toString(),
+                            purposedTotal.toString(), jobUpdatedAt
                         )
                     )
                 } else {

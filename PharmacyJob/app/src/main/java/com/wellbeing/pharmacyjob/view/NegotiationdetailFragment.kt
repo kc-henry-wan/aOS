@@ -114,6 +114,7 @@ class NegotiationdetailFragment : Fragment() {
         var negotiationId: String = ""
         var updatedAt: String = ""
         var status: String = ""
+        var jobUpdatedAt: String = ""
 
         AppLogger.d("NegotiatedetailFragment", "2")
 
@@ -151,6 +152,7 @@ class NegotiationdetailFragment : Fragment() {
             negotiationId = it.negotiationId
             updatedAt = it.updatedAt
             status = it.status
+            jobUpdatedAt = it.jobUpdatedAt
             AppLogger.d("NegotiatedetailFragment", "3:")
 
             // Set up the adapter
@@ -183,7 +185,10 @@ class NegotiationdetailFragment : Fragment() {
 //        }
         acceptButton.setOnClickListener {
             showConfirmationDialog(
-                negotiationId, getString(R.string.negotiation_action_accept), updatedAt
+                negotiationId,
+                getString(R.string.negotiation_action_accept),
+                updatedAt,
+                jobUpdatedAt
             )
         }
 
@@ -226,9 +231,7 @@ class NegotiationdetailFragment : Fragment() {
 
 
     private fun showConfirmationDialog(
-        id: String,
-        actionMode: String,
-        updatedAt: String
+        id: String, actionMode: String, updatedAt: String, jobUpdatedAt: String
     ) {
 
         // Inflate the custom dialog layout
@@ -265,7 +268,7 @@ class NegotiationdetailFragment : Fragment() {
             if (actionMode == getString(R.string.negotiation_action_accept)) {
                 dialog.dismiss() // Close the dialog
                 negotiateUpdateViewModel.updateNegotiation(
-                    id, NegotiateUpdateRequest("8", actionMode, updatedAt)
+                    id, NegotiateUpdateRequest("8", actionMode, updatedAt, jobUpdatedAt)
                 )
             }
         }

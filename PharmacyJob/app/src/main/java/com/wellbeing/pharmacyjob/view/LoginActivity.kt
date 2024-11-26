@@ -26,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var createAccountLink: TextView
+    private lateinit var forgotPasswordLink: TextView
     private lateinit var logonResultTextView: TextView
     private lateinit var loginViewModel: LoginViewModel
 //    private lateinit var gotoHomeButton: Button
@@ -39,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText = binding.passwordEditText
         loginButton = binding.loginButton
         createAccountLink = binding.createAccountLink
+        forgotPasswordLink = binding.forgotPasswordLink
         logonResultTextView = binding.logonResultTextView
 //        gotoHomeButton = binding.gotoHomeButton
 
@@ -78,6 +80,12 @@ class LoginActivity : AppCompatActivity() {
         // Set click listener to go to the CreateAccountActivity
         createAccountLink.setOnClickListener {
             val intent = Intent(this, CreateAccountActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Set click listener to go to the ForgotPasswordActivity
+        forgotPasswordLink.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
         }
 

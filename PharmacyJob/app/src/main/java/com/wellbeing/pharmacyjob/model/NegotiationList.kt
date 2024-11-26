@@ -16,6 +16,7 @@ data class NegotiationList(
     val lunchArrangement: String,
     val parkingOption: String,
     val ratePerMile: Double,
+    val jobUpdatedAt: String,
     val originalHourlyRate: Double,
     val originalTotalPaid: Double,
     val purposedHourlyRate: Double,

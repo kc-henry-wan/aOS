@@ -7,6 +7,8 @@
     <string name="title_negotiation">Under Negotiation</string>
     <string name="title_jobdetail">Job Detail</string>
     <string name="text_fav">Favorite Icon</string>
+    <string name="text_create_account">Don\'t have an account? Create one!</string>
+    <string name="text_forgot_password">Forgot your password? Click here!</string>
     <string name="address_format">%1$s\n%2$s\n%3$s</string>
     <string name="date_time_format">%1$s / %2$s - %3$s</string>
     <string name="hourly_rate_format">£%1$s/hr</string>
@@ -23,6 +25,7 @@
     <string name="job_withdraw_confirmation">Do you really want to withdraw this job?</string>
     <string name="negotiate_status_new">New</string>
     <string name="negotiate_new_confirmation">Please input your purposed hourly rate:</string>
+    <string name="negotiate_new_reason">Reason:</string>
     <string name="negotiate_new_error">Invalid purposed hourly rate!!</string>
     <string name="negotiate_new_input">Your purposed total paid is:</string>
     <string name="negotiation_action_accept">Accept</string>
